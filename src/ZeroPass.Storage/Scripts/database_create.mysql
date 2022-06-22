@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS ZeroPass CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE ZeroPass;
+
+CREATE TABLE IF NOT EXISTS t_user
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email varchar(255),
+    user_type TINYINT NOT NULL, -- 1: Standard, 2: Premium
+    user_name VARCHAR(255) NOT NULL,
+    UNIQUE ux_user_email (email)
+);
