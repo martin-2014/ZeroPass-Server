@@ -8,13 +8,48 @@ namespace ZeroPass.Storage
     internal class UnitOfWork : IUnitOfWork
     {
         UserRepository users;
+        DomainRepository domains;
+        DomainUserRepository domainUsers;
+        UserProfileRepository userProfiles;
+        UserKeyRepository keys;
 
         public MySqlConnection MySqlConnection { get; private set; }
+        MySqlTransaction MySqlTransaction;
 
         public UnitOfWork(MySqlConnection connection) => MySqlConnection = connection;
 
         public IDbConnection Connection => MySqlConnection;
         public IUserRepository Users => users ??= new UserRepository(this);
+        public IDomainRepository Domains => domains ??= new DomainRepository(this);
+        public IDomainUserRepository DomainUsers => domainUsers ??= new DomainUserRepository(this);
+        public IUserProfileRepository UserProfiles => userProfiles ??= new UserProfileRepository(this);
+        public IUserKeyRepository UserKeys => keys ??= new UserKeyRepository(this);
+
+        public async Task BeginTrans()
+        {
+            if (MySqlTransaction != null)
+                throw new Exception("A transaction has been opened.");
+
+            MySqlTransaction = await MySqlConnection.BeginTransactionAsync();
+        }
+
+        public async Task CommitTrans()
+        {
+            if (MySqlTransaction == null)
+                throw new Exception("No transaction opened");
+
+            await MySqlTransaction.CommitAsync();
+            await DisposeTrans();
+        }
+
+        public async Task RollbackTrans()
+        {
+            if (MySqlTransaction == null)
+                throw new Exception("No transaction opened");
+
+            await MySqlTransaction.RollbackAsync();
+            await DisposeTrans();
+        }
 
         public void Dispose()
         {
@@ -46,6 +81,15 @@ namespace ZeroPass.Storage
             }
 
             MySqlConnection = null;
+        }
+
+        async Task DisposeTrans()
+        {
+            if (MySqlTransaction == null) return;
+
+            var tran = MySqlTransaction;
+            MySqlTransaction = null;
+            await tran.DisposeAsync();
         }
     }
 }

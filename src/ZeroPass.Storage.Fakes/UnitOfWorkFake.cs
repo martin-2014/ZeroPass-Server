@@ -14,6 +14,16 @@ namespace ZeroPass.Storage.Fakes
         public IDbConnection Connection => null;
 
         public IUserRepository Users => new UserRepositoryFake(Database);
+        public IDomainRepository Domains => new DomainRepositoryFake(Database);
+        public IDomainUserRepository DomainUsers => new DomainUserRepositoryFake(Database);
+        public IUserProfileRepository UserProfiles => new UserProfileRepositoryFake(Database);
+        public IUserKeyRepository UserKeys => new UserKeyRepositoryFake(Database);
+
+        public Task BeginTrans() => Task.CompletedTask;
+
+        public Task CommitTrans() => Task.CompletedTask;
+
+        public Task RollbackTrans() => Task.CompletedTask;
 
         public void Dispose() => ReleaseConnection();
 

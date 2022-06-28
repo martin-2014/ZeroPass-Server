@@ -1,4 +1,5 @@
 ﻿using Amazon.Lambda.AspNetCoreServer;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace ZeroPass.Api.Tests
                     })
                     .AddControllersAsServices()
                     .AddApplicationPart(typeof(Startup).Assembly);
+
+                services.AddMediatR(typeof(Startup));
 
                 services = services
                     .AddSingleton<IConfiguration>(Configuration)

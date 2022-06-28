@@ -8,18 +8,23 @@
     "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
+        "FunctionName": "zeropass-api-test",
         "PackageType": "Image",
         "ImageConfig": {
+          "EntryPoint": [
+            "/lambda-entrypoint.sh"
+          ],
           "Command": [
-            "ZeroPass.Core.Api::ZeroPass.Core.Api.LambdaEntryPoint::FunctionHandlerAsync"
+            "ZeroPass.Api::ZeroPass.Api.LambdaEntryPoint::FunctionHandlerAsync"
           ]
         },
         "ImageUri": "",
-        "MemorySize": 256,
+        "MemorySize": 1024,
         "Timeout": 30,
         "Role": null,
         "Policies": [
-          "AWSLambda_FullAccess"
+          "AWSLambda_FullAccess",
+          "AWSLambdaVPCAccessExecutionRole"
         ],
         "Events": {
           "ProxyResource": {

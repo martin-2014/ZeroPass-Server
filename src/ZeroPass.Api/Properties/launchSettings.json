@@ -2,13 +2,17 @@
   "profiles": {
     "ZeroPass.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "MysqlConnectionString": "",
-        "ReadonlyMysqlConnectionString": ""
+        "ReadonlyMysqlConnectionString": "",
+        "RedisConnectionString": "",
+        "SMTP_SERVER": "",
+        "SMTP_USER": "",
+        "SMTP_PASSWORD": ""
       },
-      "applicationUrl": "https://localhost:2777;http://localhost:2778"
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
     "Mock Lambda Test Tool": {
       "commandName": "Executable",

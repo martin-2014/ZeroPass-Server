@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,12 @@ namespace ZeroPass.Api
             services.UseSwagger();
             services.AddSingleton(config)
                 .UseStorage(config)
-                .UseApplicationServices();
+                .UseCaching(config)
+                .UseApplicationServices()
+                .UseCodeGenerator()
+                .UseNotification()
+                .UserMapper()
+                .AddMediatR(typeof(Startup)); ;
 
             services.AddSingleton<ISharedLogger, SharedLogger>();
         }
@@ -45,6 +51,7 @@ namespace ZeroPass.Api
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
+                app.UseSwaggerUI();
                 app.UseDeveloperExceptionPage();
             }
             var configuration = new ConfigurationBuilder().AddJsonFile(APPSETTINGS_PATH).Build();

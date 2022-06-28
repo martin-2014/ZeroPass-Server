@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ZeroPass.Api {
+namespace ZeroPass.Api.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ZeroPass.Api {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ZeroPass.Api.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ZeroPass.Api.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,29 @@ namespace ZeroPass.Api {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to err_activation_failed.
+        /// </summary>
+        internal static string ErrorActivationFailed {
+            get {
+                return ResourceManager.GetString("ErrorActivationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to err_email_duplicate.
         /// </summary>
         internal static string ErrorEmailDuplicate {
             get {
                 return ResourceManager.GetString("ErrorEmailDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to err_invalid_code.
+        /// </summary>
+        internal static string ErrorInvalidCode {
+            get {
+                return ResourceManager.GetString("ErrorInvalidCode", resourceCulture);
             }
         }
         

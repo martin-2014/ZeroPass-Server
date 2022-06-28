@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorActivationFailed" xml:space="preserve">
+    <value>err_activation_failed</value>
+  </data>
   <data name="ErrorEmailDuplicate" xml:space="preserve">
     <value>err_email_duplicate</value>
+  </data>
+  <data name="ErrorInvalidCode" xml:space="preserve">
+    <value>err_invalid_code</value>
   </data>
   <data name="ErrorServerError" xml:space="preserve">
     <value>err_server_error</value>

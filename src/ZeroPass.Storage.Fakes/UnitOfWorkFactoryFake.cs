@@ -18,6 +18,13 @@ namespace ZeroPass.Storage.Fakes
             return await Task.FromResult(new UnitOfWorkFake(Database, ReleaseConnection));
         }
 
+        public async Task<IUnitOfWork> CreateWrite()
+        {
+            CheckPoolAvailable();
+            CurrentPoolSize++;
+            return await Task.FromResult(new UnitOfWorkFake(Database, ReleaseConnection));
+        }
+
         void CheckPoolAvailable()
         {
             if (CurrentPoolSize >= MaxPoolSise)
