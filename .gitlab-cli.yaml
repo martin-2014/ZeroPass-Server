@@ -28,7 +28,7 @@ test-api:   # This job runs in the test stage.
 deploy-api-dev:      # This job runs in the deploy stage.
   stage: api-deploy  # It only runs when *both* jobs in the test stage complete successfully.
   variables:
-    NAME: "zeropass-api-dev"
+    NAME: "zeropass-community-api-dev"
     QUERY: 'items[?name==`$NAME`].id | [0]'
     UPDATE_FUNCTION_CMD: 'AWS_ACCESS_KEY_ID=$DEV_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY aws lambda update-function-configuration --region $DEV_AWS_DEFAULT_REGION --function-name $NAME --environment ''{"Variables":{"SMTP_SERVER":"$SMTP_SERVER","SMTP_USER":"$SMTP_USER","SMTP_PASSWORD":"$SMTP_PASSWORD","MysqlConnectionString":"$DEV_MYSQL_RW","ReadonlyMysqlConnectionString":"$DEV_MYSQL_RO","RedisConnectionString":"$DEV_REDIS_RW","ReadonlyRedisConnectionString":"$DEV_REDIS_RO","JWT_SECURITY_KEY":"$DEV_JWT_SECURITY_KEY","JWT_EXPIRES_SECONDS":"$DEV_JWT_EXPIRES_SECONDS","ASPNETCORE_ENVIRONMENT":"Development","APP_BUCKET_URL":"$DEV_APP_BUCKET_URL"}}'' --vpc-config $DEV_VPC_CONFIG'
   only:
@@ -49,7 +49,7 @@ deploy-api-dev:      # This job runs in the deploy stage.
 deploy-api-test:      # This job runs in the deploy stage.
   stage: api-deploy  # It only runs when *both* jobs in the test stage complete successfully.
   variables:
-    NAME: "zeropass-api-test"
+    NAME: "zeropass-community-api-test"
     QUERY: 'items[?name==`$NAME`].id | [0]'
     UPDATE_FUNCTION_CMD: 'AWS_ACCESS_KEY_ID=$DEV_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY aws lambda update-function-configuration --region $DEV_AWS_DEFAULT_REGION --function-name $NAME --environment ''{"Variables":{"SMTP_SERVER":"$SMTP_SERVER","SMTP_USER":"$SMTP_USER","SMTP_PASSWORD":"$SMTP_PASSWORD","MysqlConnectionString":"$TEST_MYSQL_RW","ReadonlyMysqlConnectionString":"$TEST_MYSQL_RO","RedisConnectionString":"$TEST_REDIS_RW","ReadonlyRedisConnectionString":"$TEST_REDIS_RO","JWT_SECURITY_KEY":"$TEST_JWT_SECURITY_KEY","JWT_EXPIRES_SECONDS":"$TEST_JWT_EXPIRES_SECONDS","APP_BUCKET_URL":"$TEST_APP_BUCKET_URL"}}'' --vpc-config $TEST_VPC_CONFIG'
   only:

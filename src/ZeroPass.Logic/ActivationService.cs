@@ -17,9 +17,10 @@ namespace ZeroPass.Service
         readonly ICacheKeyGenerator CacheKeyGenerator;
         readonly ICache Cache;
         readonly IMapper Mapper;
-        readonly IUnitOfWorkFactory UnitOfWorkFactory;
         readonly IEmailService EmailService;
         readonly IUserKeyInternalService UserKeyInternalService;
+        
+        protected readonly IUnitOfWorkFactory UnitOfWorkFactory;
 
         public ActivationService(
             ICacheKeyGenerator cacheKeyGenerator,
