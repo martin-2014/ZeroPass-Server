@@ -112,6 +112,17 @@ namespace ZeroPass.Service.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;div style=&quot;margin-top: 5px;&quot;&gt;
+        ///                                Your Business Domain: {0} - {1}
+        ///                            &lt;/div&gt;.
+        /// </summary>
+        internal static string Email_Register_Success_Business {
+            get {
+                return ResourceManager.GetString("Email_Register_Success_Business", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome to ZeroPass.
         /// </summary>
         internal static string Email_Register_Success_Subject {

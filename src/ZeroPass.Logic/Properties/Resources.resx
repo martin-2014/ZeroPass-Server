@@ -127,6 +127,11 @@
   <data name="Email_Register_Succeed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Email\Templates\Email_Register_Succeed.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
+  <data name="Email_Register_Success_Business" xml:space="preserve">
+    <value>&lt;div style="margin-top: 5px;"&gt;
+                                Your Business Domain: {0} - {1}
+                            &lt;/div&gt;</value>
+  </data>
   <data name="Email_Register_Success_Subject" xml:space="preserve">
     <value>Welcome to ZeroPass</value>
   </data>
