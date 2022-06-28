@@ -8,7 +8,7 @@
     "AspNetCoreFunction": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "FunctionName": "zeropass--api-dev",
+        "FunctionName": "zeropass-community-api-dev",
         "PackageType": "Image",
         "ImageConfig": {
           "EntryPoint": [

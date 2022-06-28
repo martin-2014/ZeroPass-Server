@@ -28,9 +28,9 @@ test-api:   # This job runs in the test stage.
 deploy-api-dev:      # This job runs in the deploy stage.
   stage: api-deploy  # It only runs when *both* jobs in the test stage complete successfully.
   variables:
-    NAME: "zeropass-api-dev"
+    NAME: "zeropass-community-api-dev"
     QUERY: 'items[?name==`$NAME`].id | [0]'
-    UPDATE_FUNCTION_CMD: 'AWS_ACCESS_KEY_ID=$DEV_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY aws lambda update-function-configuration --region $DEV_AWS_DEFAULT_REGION --function-name $NAME --environment ''{"Variables":{"SMTP_SERVER":"$SMTP_SERVER","SMTP_USER":"$SMTP_USER","SMTP_PASSWORD":"$SMTP_PASSWORD","MysqlConnectionString":"$DEV_MYSQL_RW","ReadonlyMysqlConnectionString":"$DEV_MYSQL_RO","RedisConnectionString":"$DEV_REDIS_RW","ReadonlyRedisConnectionString":"$DEV_REDIS_RO","JWT_SECURITY_KEY":"$DEV_JWT_SECURITY_KEY","JWT_EXPIRES_SECONDS":"$DEV_JWT_EXPIRES_SECONDS","ASPNETCORE_ENVIRONMENT":"Development","IPSearchServiceUrl":"$IP_SVS_URL", "IPSearchServiceAccessKey":"$IP_SVS_ACCESS_ID", "IPSearchServiceSecretKey":"$IP_SVS_ACCESS_SECRET", "BrowserServiceBaseUrl":"$DEV_ENV_SVS_URL", "BrowserServiceRootPath":"$DEV_ENV_SVS_PATH", "BrowserServiceAppID":"$DEV_ENV_SVS_APP_ID", "BrowserServiceAccessKey":"$DEV_ENV_SVS_ACCESS_ID", "BrowserServiceSecretKey":"$DEV_ENV_SVS_ACCESS_SECRET", "APP_BUCKET_URL":"$DEV_APP_BUCKET_URL"}}'' --vpc-config SubnetIds=subnet-018cee6c189550800,subnet-0cab9025edfc11d35,subnet-07cb3a98ddc160460,SecurityGroupIds=sg-08997e7201be07cd0'
+    UPDATE_FUNCTION_CMD: 'AWS_ACCESS_KEY_ID=$DEV_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY aws lambda update-function-configuration --region $DEV_AWS_DEFAULT_REGION --function-name $NAME --environment ''{"Variables":{"SMTP_SERVER":"$SMTP_SERVER","SMTP_USER":"$SMTP_USER","SMTP_PASSWORD":"$SMTP_PASSWORD","MysqlConnectionString":"$DEV_MYSQL_RW","ReadonlyMysqlConnectionString":"$DEV_MYSQL_RO","RedisConnectionString":"$DEV_REDIS_RW","ReadonlyRedisConnectionString":"$DEV_REDIS_RO","JWT_SECURITY_KEY":"$DEV_JWT_SECURITY_KEY","JWT_EXPIRES_SECONDS":"$DEV_JWT_EXPIRES_SECONDS","ASPNETCORE_ENVIRONMENT":"Development","APP_BUCKET_URL":"$DEV_APP_BUCKET_URL"}}'' --vpc-config $DEV_VPC_CONFIG'
   only:
     - dev
     - master
@@ -39,7 +39,7 @@ deploy-api-dev:      # This job runs in the deploy stage.
     - /^pre-release.*$/
     - /^hotfix.*$/
   script:
-    - dotnet lambda deploy-serverless --region $DEV_AWS_DEFAULT_REGION --aws-access-key-id $DEV_AWS_ACCESS_KEY_ID --aws-secret-key $DEV_AWS_SECRET_ACCESS_KEY -sn $NAME -sb $NAME-$DEV_AWS_DEFAULT_REGION -f netcoreapp3.1 -c Release -pl src/HubStudio.Api/ -t serverless.dev.template --tags PipelineJobId=$CI_JOB_ID
+    - dotnet lambda deploy-serverless --region $DEV_AWS_DEFAULT_REGION --aws-access-key-id $DEV_AWS_ACCESS_KEY_ID --aws-secret-key $DEV_AWS_SECRET_ACCESS_KEY -sn $NAME -sb $NAME-$DEV_AWS_DEFAULT_REGION -f netcoreapp3.1 -c Release -pl src/ZeroPass.Api/ -t serverless.dev.template --tags PipelineJobId=$CI_JOB_ID
     - 'eval "$UPDATE_FUNCTION_CMD"'
   environment:
     name: api-development
@@ -49,9 +49,9 @@ deploy-api-dev:      # This job runs in the deploy stage.
 deploy-api-test:      # This job runs in the deploy stage.
   stage: api-deploy  # It only runs when *both* jobs in the test stage complete successfully.
   variables:
-    NAME: "zeropass-api-test"
+    NAME: "zeropass-community-api-test"
     QUERY: 'items[?name==`$NAME`].id | [0]'
-    UPDATE_FUNCTION_CMD: 'AWS_ACCESS_KEY_ID=$DEV_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY aws lambda update-function-configuration --region $DEV_AWS_DEFAULT_REGION --function-name $NAME --environment ''{"Variables":{"SMTP_SERVER":"$SMTP_SERVER","SMTP_USER":"$SMTP_USER","SMTP_PASSWORD":"$SMTP_PASSWORD","MysqlConnectionString":"$TEST_MYSQL_RW","ReadonlyMysqlConnectionString":"$TEST_MYSQL_RO","RedisConnectionString":"$TEST_REDIS_RW","ReadonlyRedisConnectionString":"$TEST_REDIS_RO","JWT_SECURITY_KEY":"$TEST_JWT_SECURITY_KEY","JWT_EXPIRES_SECONDS":"$TEST_JWT_EXPIRES_SECONDS","IPSearchServiceUrl":"$IP_SVS_URL","IPSearchServiceAccessKey":"$IP_SVS_ACCESS_ID","IPSearchServiceSecretKey":"$IP_SVS_ACCESS_SECRET","BrowserServiceBaseUrl":"$TEST_ENV_SVS_URL","BrowserServiceRootPath":"$TEST_ENV_SVS_PATH","BrowserServiceAppID":"$TEST_ENV_SVS_APP_ID","BrowserServiceAccessKey":"$TEST_ENV_SVS_ACCESS_ID","BrowserServiceSecretKey":"$TEST_ENV_SVS_ACCESS_SECRET", "APP_BUCKET_URL":"$TEST_APP_BUCKET_URL"}}'' --vpc-config SubnetIds=subnet-018cee6c189550800,subnet-0cab9025edfc11d35,subnet-07cb3a98ddc160460,SecurityGroupIds=sg-08997e7201be07cd0'
+    UPDATE_FUNCTION_CMD: 'AWS_ACCESS_KEY_ID=$DEV_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DEV_AWS_SECRET_ACCESS_KEY aws lambda update-function-configuration --region $DEV_AWS_DEFAULT_REGION --function-name $NAME --environment ''{"Variables":{"SMTP_SERVER":"$SMTP_SERVER","SMTP_USER":"$SMTP_USER","SMTP_PASSWORD":"$SMTP_PASSWORD","MysqlConnectionString":"$TEST_MYSQL_RW","ReadonlyMysqlConnectionString":"$TEST_MYSQL_RO","RedisConnectionString":"$TEST_REDIS_RW","ReadonlyRedisConnectionString":"$TEST_REDIS_RO","JWT_SECURITY_KEY":"$TEST_JWT_SECURITY_KEY","JWT_EXPIRES_SECONDS":"$TEST_JWT_EXPIRES_SECONDS","APP_BUCKET_URL":"$TEST_APP_BUCKET_URL"}}'' --vpc-config $TEST_VPC_CONFIG'
   only:
     - dev
     - master
@@ -60,7 +60,7 @@ deploy-api-test:      # This job runs in the deploy stage.
     - /^pre-release.*$/
     - /^hotfix.*$/
   script:
-    - dotnet lambda deploy-serverless --region $DEV_AWS_DEFAULT_REGION --aws-access-key-id $DEV_AWS_ACCESS_KEY_ID --aws-secret-key $DEV_AWS_SECRET_ACCESS_KEY -sn $NAME -sb $NAME-$DEV_AWS_DEFAULT_REGION -f netcoreapp3.1 -c Release -pl src/HubStudio.Api/ -t serverless.test.template --tags PipelineJobId=$CI_JOB_ID
+    - dotnet lambda deploy-serverless --region $DEV_AWS_DEFAULT_REGION --aws-access-key-id $DEV_AWS_ACCESS_KEY_ID --aws-secret-key $DEV_AWS_SECRET_ACCESS_KEY -sn $NAME -sb $NAME-$DEV_AWS_DEFAULT_REGION -f netcoreapp3.1 -c Release -pl src/ZeroPass.Api/ -t serverless.test.template --tags PipelineJobId=$CI_JOB_ID
     - 'eval "$UPDATE_FUNCTION_CMD"'
   environment:
     name: api-testing
