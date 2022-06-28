@@ -22,5 +22,13 @@ namespace ZeroPass.Storage
         public static IServiceCollection UseUnitOfWork(this IServiceCollection services)
             => services
                 .AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
+
+        public static IServiceCollection UseCaching(this IServiceCollection services, IConfiguration config) 
+            => services
+                .AddSingleton<ICache, RedisCache>()
+                .AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = config.GetValue("RedisConnectionString");
+                });
     }
 }

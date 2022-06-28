@@ -9,7 +9,13 @@ namespace ZeroPass.Storage
 
         public UnitOfWorkFactory(ConnectionOption options) => Options = options;
 
-        public Task<IUnitOfWork> CreateRead() => ConnectMaster();
+        public async Task<IUnitOfWork> CreateRead()
+        {
+            var conn = await CreateAndOpenConnection(Options.ReadonlyMysqlConnectionString);
+            return new UnitOfWork(conn);
+        }
+
+        public Task<IUnitOfWork> CreateWrite() => ConnectMaster();
 
         async Task<IUnitOfWork> ConnectMaster()
         {

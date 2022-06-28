@@ -18,5 +18,15 @@ namespace ZeroPass.Storage
                 where email = @Email";
             return await Connection.QueryFirstOrDefaultAsync<UserEntity>(sql, new { Email = email });
         }
+
+        public Task<int> Insert(UserEntity entity)
+        {
+            var sql = "insert into t_user" +
+               "(user_type, user_name, email)" +
+               "values " +
+               "(@UserType, @UserName, @Email);" +
+               "select last_insert_id();";
+            return Connection.ExecuteScalarAsync<int>(sql, entity);
+        }
     }
 }

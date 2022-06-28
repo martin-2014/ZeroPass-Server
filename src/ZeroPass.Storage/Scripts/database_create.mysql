@@ -10,3 +10,61 @@ CREATE TABLE IF NOT EXISTS t_user
     user_name VARCHAR(255) NOT NULL,
     UNIQUE ux_user_email (email)
 );
+
+CREATE TABLE IF NOT EXISTS t_domain
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    domain_type TINYINT NOT NULL,  -- 1:Personal, 2: Enterprise
+    domain_name VARCHAR(255) NOT NULL,
+    company VARCHAR(255) NOT NULL,
+    create_time DATETIME NOT NULL,
+    UNIQUE ux_domain_name (domain_name)
+);
+
+CREATE TABLE IF NOT EXISTS t_domain_info
+(
+    domain_id INT NOT NULL,
+    contact_phone VARCHAR(64),
+    contact_person VARCHAR(55),
+    number_of_employees VARCHAR(16),
+    country VARCHAR(2),
+    timezone VARCHAR(6),
+    logo TEXT,
+    updated_by INT,
+    update_time DATETIME,
+    PRIMARY KEY (domain_id),
+    CONSTRAINT fk_domain_info_domain FOREIGN KEY (domain_id) REFERENCES t_domain (id)
+);
+
+CREATE TABLE IF NOT EXISTS t_user_profile
+(
+    user_id INT NOT NULL,
+    timezone VARCHAR(50) NULL,
+    PRIMARY KEY (user_id),
+    CONSTRAINT fk_user_profile_user FOREIGN KEY (user_id) REFERENCES t_user (id)
+);
+
+CREATE TABLE IF NOT EXISTS t_domain_user
+(
+    domain_id INT NOT NULL,
+    user_id INT NOT NULL,
+    is_owner BOOLEAN NOT NULL DEFAULT FALSE,
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+    status INT NOT NULL DEFAULT 0, -- 0: Pending, 1: Active, 2: Inactive
+    created_by INT,
+    create_time DATETIME,
+    updated_by INT,
+    update_time DATETIME,
+    PRIMARY KEY (domain_id, user_id),
+    CONSTRAINT fk_domain_user_domain FOREIGN KEY (domain_id) REFERENCES t_domain (id),
+    CONSTRAINT fk_domain_user_user FOREIGN KEY (user_id) REFERENCES t_user (id)
+);
+
+CREATE TABLE IF NOT EXISTS t_user_key (
+	user_id INT primary key,
+	salt varchar(64) not null,
+	verifier varchar(512) not null,
+	public_data_key text not null,
+	private_data_key text not null,
+	CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES t_user (id)
+);

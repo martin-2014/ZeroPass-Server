@@ -1,5 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System;
+using ZeroPass.Api.Properties;
 using ZeroPass.Model.Api;
 
 namespace ZeroPass.Api

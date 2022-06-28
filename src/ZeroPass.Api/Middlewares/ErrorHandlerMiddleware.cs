@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ZeroPass.Api.Properties;
 using ZeroPass.Model.Api;
 using ZeroPass.Model.Logging;
 
