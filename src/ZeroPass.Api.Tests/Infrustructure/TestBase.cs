@@ -17,7 +17,7 @@ using ZeroPass.Storage.Fakes;
 
 namespace ZeroPass.Api.Tests
 {
-    public class TestBase : TestEntryPoint
+    public partial class TestBase : TestEntryPoint
     {
         UserRepositoryFake userRepositoryFake;
         protected UserRepositoryFake UserRepositoryFake => userRepositoryFake;
@@ -37,7 +37,7 @@ namespace ZeroPass.Api.Tests
 
         public TestBase() => SetupEnv();
 
-        void SetupEnv()
+        protected virtual void SetupEnv()
         {
             var userCount = 6;
             EnvBuilder.CreatePersonalUsers(userCount);
@@ -49,6 +49,7 @@ namespace ZeroPass.Api.Tests
             InitRepositories();
             services
                 .UseApplicationServices()
+                .UseDataSecurity()
                 .AddSingleton<IUserRepository>(UserRepositoryFake)
                 .AddSingleton<IUnitOfWorkFactory>(new UnitOfWorkFactoryFake(FakeDatabase))
                 .AddSingleton<IEmailService>(EmailServiceFake)
@@ -58,7 +59,7 @@ namespace ZeroPass.Api.Tests
                 .AddSingleton(mapper); ;
         }
 
-        void InitRepositories()
+        protected virtual void InitRepositories()
         {
             var mapperConfig = new MapperConfiguration(mc =>
             {

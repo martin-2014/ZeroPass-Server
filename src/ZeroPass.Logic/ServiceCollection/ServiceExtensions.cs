@@ -18,5 +18,10 @@ namespace ZeroPass.Service
 
         public static IServiceCollection UseNotification(this IServiceCollection services)
             => services.AddScoped<IEmailService, EmailService>();
+
+        public static IServiceCollection UseDataSecurity(this IServiceCollection services)
+            => services
+            .AddSingleton<IConvertService, ConvertService>()
+            .AddSingleton<ICryptoService, CryptoService>();
     }
 }

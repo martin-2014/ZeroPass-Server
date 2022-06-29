@@ -14,12 +14,11 @@ namespace ZeroPass.Service
 {
     public class ActivationService : IActivationService
     {
-        readonly ICacheKeyGenerator CacheKeyGenerator;
-        readonly ICache Cache;
-        readonly IMapper Mapper;
-        readonly IEmailService EmailService;
-        readonly IUserKeyInternalService UserKeyInternalService;
-        
+        protected readonly ICacheKeyGenerator CacheKeyGenerator;
+        protected readonly ICache Cache;
+        protected readonly IMapper Mapper;
+        protected readonly IEmailService EmailService;
+        protected readonly IUserKeyInternalService UserKeyInternalService;
         protected readonly IUnitOfWorkFactory UnitOfWorkFactory;
 
         public ActivationService(

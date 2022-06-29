@@ -8,7 +8,7 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Api.Tests
 {
-    public class ActivationControllerTests : TestBase
+    public partial class ActivationControllerTests : TestBase
     {
         const string ActivationPath = "/api/activation";
 
