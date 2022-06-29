@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Storage.Fakes
 {
-    public class DomainRepositoryFake : RepositoryFake<DomainEntity>, IDomainRepository
+    public partial class DomainRepositoryFake : RepositoryFake<DomainEntity>, IDomainRepository
     {
         readonly FakeDatabase Database;
 
@@ -30,6 +29,12 @@ namespace ZeroPass.Storage.Fakes
         {
             DomainInfoEntities.Add(entity);
             return Task.CompletedTask;
+        }
+
+        public Task<DomainEntity> GetDomainByName(string domainName)
+        {
+            var item = DomainEntities.FirstOrDefault(d => d.DomainName == domainName);
+            return Task.FromResult(item);
         }
     }
 }

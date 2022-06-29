@@ -11,7 +11,7 @@ using ZeroPass.Model.Logging;
 
 namespace ZeroPass.Api.Tests
 {
-    public class TestEntryPoint : APIGatewayProxyFunction
+    public partial class TestEntryPoint : APIGatewayProxyFunction
     {
         protected IServiceProvider Application;
         protected ConfigurationFake Configuration = new ConfigurationFake();

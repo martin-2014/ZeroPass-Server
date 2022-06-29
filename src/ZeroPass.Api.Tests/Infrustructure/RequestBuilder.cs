@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 namespace ZeroPass.Api.Tests
 {
-    public class RequestBuilder
+    public partial class RequestBuilder
     {
         const string GET = "GET";
         const string POST = "POST";
         const string PUT = "PUT";
+        const string PATCH = "PATCH";
         const string DELETE = "DELETE";
 
         string Path { get; }
@@ -22,7 +23,16 @@ namespace ZeroPass.Api.Tests
             => new RequestBuilder(path, GET);
 
         public static RequestBuilder PostRequest(string path)
-            => new RequestBuilder(path, "POST");
+            => new RequestBuilder(path, POST);
+
+        public static RequestBuilder PutRequest(string path)
+            => new RequestBuilder(path, PUT);
+
+        public static RequestBuilder PatchRequest(string path)
+            => new RequestBuilder(path, PATCH);
+
+        public static RequestBuilder DeleteRequest(string path)
+            => new RequestBuilder(path, DELETE);
 
         public RequestBuilder(string path, string method)
         {

@@ -2,7 +2,7 @@
 
 namespace ZeroPass.Api.Tests
 {
-    public class TestResponseBody
+    public partial class TestResponseBody
     {
         public class ErrorInfo
         {

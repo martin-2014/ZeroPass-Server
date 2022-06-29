@@ -5,7 +5,7 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Storage
 {
-    internal class DomainRepository : IDomainRepository
+    internal partial class DomainRepository : IDomainRepository
     {
         readonly IDbConnection Connection;
 
@@ -29,6 +29,14 @@ namespace ZeroPass.Storage
                 "(@DomainId, @ContactPhone, @ContactPerson, @NumberOfEmployees, @Country, @Timezone, @Logo);" +
                 "select last_insert_id();";
             await Connection.ExecuteAsync(sql, entity);
+        }
+
+        public Task<DomainEntity> GetDomainByName(string domainName)
+        {
+            var sql = $@"select id, domain_type, domain_name, company, create_time
+                from t_domain 
+                where domain_name = @DomainName";
+            return Connection.QueryFirstOrDefaultAsync<DomainEntity>(sql, new { DomainName = domainName });
         }
     }
 }

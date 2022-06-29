@@ -4,7 +4,7 @@ using ZeroPass.Storage.Fakes;
 
 namespace ZeroPass.Api.Tests
 {
-    public class TestUser
+    public partial class TestUser
     {
         public readonly TestEnvironment TestEnv;
         public readonly int Id;

@@ -4,7 +4,7 @@ using System.Net;
 
 namespace ZeroPass.Api.Tests
 {
-    public class TestResponse
+    public partial class TestResponse
     {
         public APIGatewayProxyResponse Origin { get; }
         public int StatusCode { get; }

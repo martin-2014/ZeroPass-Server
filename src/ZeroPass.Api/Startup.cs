@@ -37,6 +37,7 @@ namespace ZeroPass.Api
                 .UseApplicationServices()
                 .UseCodeGenerator()
                 .UseNotification()
+                .UseDataSecurity()
                 .UserMapper()
                 .AddMediatR(typeof(Startup)); ;
 
