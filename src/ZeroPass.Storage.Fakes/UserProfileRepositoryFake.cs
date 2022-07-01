@@ -22,6 +22,13 @@ namespace ZeroPass.Storage.Fakes
             return Task.CompletedTask;
         }
         
+        public Task Update(UserProfileEntity entity)
+        {
+            var item = UserProfiles.FirstOrDefault(u => u.UserId == entity.UserId);
+            item.Timezone = entity.Timezone;
+            return Task.CompletedTask;
+        }
+        
         public Task<UserProfileView> GetProfile(int userId)
         {
             var user = Users.FirstOrDefault(u => u.Id == userId);

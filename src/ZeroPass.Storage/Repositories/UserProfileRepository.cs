@@ -20,6 +20,13 @@ namespace ZeroPass.Storage
             
             await Connection.ExecuteAsync(sql, entity);
         }
+        
+        public async Task Update(UserProfileEntity entity)
+        {
+            await Connection.ExecuteAsync(
+                "UPDATE t_user_profile SET timezone=@Timezone WHERE user_id=@UserId",
+                entity);
+        }
 
         public Task<UserProfileView> GetProfile(int userId)
         {

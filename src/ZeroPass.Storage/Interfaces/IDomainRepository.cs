@@ -10,5 +10,7 @@ namespace ZeroPass.Storage
         Task InsertDomainInfo(DomainInfoEntity entity);
 
         Task<DomainEntity> GetDomainByName(string domainName);
+        
+        Task UpdateDomainLogo(DomainInfoEntity entity);
     }
 }

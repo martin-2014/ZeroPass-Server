@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZeroPass.Model.Models.UserProfiles
+namespace ZeroPass.Model.Models
 {
     public partial class UserProfileModel
     {

@@ -7,6 +7,8 @@ namespace ZeroPass.Storage
     {
         Task Insert(UserProfileEntity entity);
         
+        Task Update(UserProfileEntity entity);
+        
         Task<UserProfileView> GetProfile(int userId);
     }
 }

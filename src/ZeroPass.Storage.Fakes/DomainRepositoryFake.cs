@@ -36,5 +36,12 @@ namespace ZeroPass.Storage.Fakes
             var item = DomainEntities.FirstOrDefault(d => d.DomainName == domainName);
             return Task.FromResult(item);
         }
+        
+        public Task UpdateDomainLogo(DomainInfoEntity entity)
+        {
+            var item = DomainInfoEntities.FirstOrDefault(d => d.DomainId == entity.DomainId);
+            item.Logo = entity.Logo;
+            return Task.CompletedTask;
+        }
     }
 }

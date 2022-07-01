@@ -38,5 +38,15 @@ namespace ZeroPass.Storage
                 where domain_name = @DomainName";
             return Connection.QueryFirstOrDefaultAsync<DomainEntity>(sql, new { DomainName = domainName });
         }
+        
+        public async Task UpdateDomainLogo(DomainInfoEntity entity)
+        {
+            var sql = "update t_domain_info " +
+                      "set logo = @Logo, " +
+                      "update_time = @UpdateTime, " +
+                      "updated_by = @UpdatedBy " +
+                      "where domain_id = @DomainId";
+            await Connection.ExecuteAsync(sql, entity);
+        }
     }
 }
