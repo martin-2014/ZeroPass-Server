@@ -70,6 +70,15 @@ namespace ZeroPass.Api.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to err_authentication_failed.
+        /// </summary>
+        internal static string ErrorAuthenticationFailed {
+            get {
+                return ResourceManager.GetString("ErrorAuthenticationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to err_email_duplicate.
         /// </summary>
         internal static string ErrorEmailDuplicate {
@@ -84,6 +93,15 @@ namespace ZeroPass.Api.Properties {
         internal static string ErrorInvalidCode {
             get {
                 return ResourceManager.GetString("ErrorInvalidCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to err_record_not_found.
+        /// </summary>
+        internal static string ErrorNotFound {
+            get {
+                return ResourceManager.GetString("ErrorNotFound", resourceCulture);
             }
         }
         

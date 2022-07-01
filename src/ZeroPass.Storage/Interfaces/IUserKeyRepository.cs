@@ -8,5 +8,7 @@ namespace ZeroPass.Storage
         Task Insert(UserKeyEntity entity);
 
         Task<UserKeyEntity> GetByUserId(int userId);
+        
+        Task<UserKeyEntity> GetByEmail(string email);
     }
 }

@@ -11,6 +11,13 @@ namespace ZeroPass.Storage.Fakes
 
         public UnitOfWorkFactoryFake(FakeDatabase database) => Database = database;
 
+        public async Task<IUnitOfWork> CreateRead(int domainId, DomainDataType types)
+        {
+            CheckPoolAvailable();
+            CurrentPoolSize++;
+            return await Task.FromResult(new UnitOfWorkFake(Database, ReleaseConnection));
+        }
+        
         public async Task<IUnitOfWork> CreateRead()
         {
             CheckPoolAvailable();
@@ -19,6 +26,13 @@ namespace ZeroPass.Storage.Fakes
         }
 
         public async Task<IUnitOfWork> CreateWrite()
+        {
+            CheckPoolAvailable();
+            CurrentPoolSize++;
+            return await Task.FromResult(new UnitOfWorkFake(Database, ReleaseConnection));
+        }
+        
+        public async Task<IUnitOfWork> CreateReadonly()
         {
             CheckPoolAvailable();
             CurrentPoolSize++;

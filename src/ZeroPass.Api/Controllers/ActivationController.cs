@@ -1,13 +1,13 @@
-﻿using MediatR;
+﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using ZeroPass.Api.Properties;
 using ZeroPass.Model.Api;
 using ZeroPass.Model.Models;
 using ZeroPass.Model.Service;
 using ZeroPass.Service.Mediator;
 
-namespace ZeroPass.Api.Controllers
+namespace ZeroPass.Api
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -7,6 +7,12 @@ namespace ZeroPass.Storage.Fakes
     {
         public readonly Dictionary<string, object> Values = new Dictionary<string, object>();
 
+        public Task<string> Get(string key)
+        {
+            var value = Values.TryGetValue(key, out var v) ? v : null;
+            return Task.FromResult(value.ToString());
+        }
+
         public Task<byte[]> GetBytes(string key)
         {
             var value = Values.TryGetValue(key, out var v) ? v : null;
@@ -24,5 +30,19 @@ namespace ZeroPass.Storage.Fakes
             Values.Remove(key);
             return Task.CompletedTask;
         }
+
+        public Task SetBytesWithSlidingExpiration(string key, byte[] value, int expireInMsec)
+        {
+            Values[key] = value;
+            return Task.CompletedTask;
+        }
+        
+        public Task SetWithAbsoluteExpiration(string key, string value, int expireMsec)
+        {
+            Values[key] = value;
+            return Task.CompletedTask;
+        }
+        
+        public Task SlidingExpiration(string key) => Task.CompletedTask;
     }
 }

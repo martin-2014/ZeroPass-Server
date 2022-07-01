@@ -31,5 +31,16 @@ namespace ZeroPass.Storage
 
             return Connection.QueryFirstOrDefaultAsync<UserKeyEntity>(sql, new { UserId = userId });
         }
+
+        public async Task<UserKeyEntity> GetByEmail(string email)
+        {
+            var sql = "select user_id, salt, verifier, public_data_key, private_data_key " +
+                      "from t_user_key k inner join " +
+                      "t_user u on k.user_id = u.id " +
+                      "where u.email = @Email";
+            
+            return await Connection.QueryFirstOrDefaultAsync<UserKeyEntity>(sql, new { Email = email });
+        }
+
     }
 }

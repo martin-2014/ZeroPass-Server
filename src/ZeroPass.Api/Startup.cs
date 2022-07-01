@@ -29,11 +29,15 @@ namespace ZeroPass.Api
         public void ConfigureServices(IServiceCollection services)
         {
             Model.Configuration.IConfiguration config = new EnvironmentConfig();
+            IAuthorizationConfiguration authConfig = new AuthorizationConfiguration(config);
             services.AddControllers();
             services.UseSwagger();
             services.AddSingleton(config)
+                .AddSingleton(authConfig)
                 .UseStorage(config)
+                .ConfigureDapper()
                 .UseCaching(config)
+                .UseAuthentication(authConfig)
                 .UseApplicationServices()
                 .UseCodeGenerator()
                 .UseNotification()

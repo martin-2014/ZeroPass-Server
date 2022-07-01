@@ -18,5 +18,7 @@ namespace ZeroPass.Api.Tests
         public string Email => Entity.Email;
         public UserEntity Entity => Database.Users.First(u => u.Id == Id);
         FakeDatabase Database => TestEnv.Database;
+        
+        public TestUserSecret UserSecret => Database.UserSecrets.First(s => s.UserId == Id);
     }
 }

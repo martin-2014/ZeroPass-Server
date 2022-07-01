@@ -11,5 +11,7 @@
         IUserProfileRepository UserProfiles { get; }
 
         IUserKeyRepository UserKeys { get; }
+        
+        IUserKeyDistributionRepository UserKeyDistributions { get; }
     }
 }

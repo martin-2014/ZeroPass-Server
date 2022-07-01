@@ -24,5 +24,7 @@ namespace ZeroPass.Storage.Fakes
         public readonly List<DomainInfoEntity> DomainInfos = new List<DomainInfoEntity>();
 
         public readonly List<TestUserSecret> UserSecrets = new List<TestUserSecret>();
+        
+        public readonly List<UserKeyDistributionEntity> UserKeyDistribution = new List<UserKeyDistributionEntity>();
     }
 }
