@@ -28,7 +28,7 @@ namespace ZeroPass.Service
         Task<bool> ActiveSession(int userId);
     }
 
-    internal class UserKeyInternalService : IUserKeyInternalService
+    internal partial class UserKeyInternalService : IUserKeyInternalService
     {
         const int ExpireUserKey = 24 * 60 * 60 * 1000;
         const int ExpireAuthentication = 60 * 1000;
@@ -125,54 +125,13 @@ namespace ZeroPass.Service
                 await RemoveExchangeKeyFromCache(model.KeyId);
             }
         }
-
-        public async Task<string> GetDataKey(IUnitOfWork unitOfWork, int actorId, int assignerId, UserKeyRequestModel model)
-        {
-            await Validatable(actorId, model);
-            var userSession = await GetUserKeySession(actorId);
-            var userKey = await GetUserKeyById(unitOfWork, assignerId);
-            var (selfPrivateKey, assignerPrivateKey) = await GetEncryptedPrivateDataKeys(unitOfWork, actorId, assignerId);
-            var dataKeyJson = JsonConvert.SerializeObject(new DataKeyModel
-            {
-                AssignerId = assignerId,
-                PublicKey = userKey.PublicDataKey,
-                SelfPrivateKey = selfPrivateKey,
-                AssignerPrivateKey = assignerPrivateKey
-            });
-            return CryptoService.EncryptText(dataKeyJson, userSession.CommunicateKey);
-        }
         
         public async Task<bool> ActiveSession(int userId)
         {
             var session = await GetUserKeySession(userId);
             return session != null;
         }
-        
-        async Task<(string, string)> GetEncryptedPrivateDataKeys(IUnitOfWork unitOfWork, int actorId, int assignerId)
-        {
-            var actorUserKey = await GetUserKeyById(unitOfWork, actorId);
-            string assignerPrivateDataKey = null;
-            if (actorId != assignerId)
-            {
-                var userKeyDistribution = await GetUserKeyDistributionByIds(unitOfWork, actorId, assignerId);
-                assignerPrivateDataKey = userKeyDistribution.AssignerPrivateDataKey;
-            }
-            return (actorUserKey.PrivateDataKey, assignerPrivateDataKey);
-        }
-        
-        async Task<UserKeyDistributionEntity> GetUserKeyDistributionByIds(IUnitOfWork unitOfWork, int assigneeId, int assignerId)
-        {
-            var key = CacheKeyGenerator.GenerateDistributionKey(assigneeId, assignerId);
-            var bytes = await Cache.GetBytes(key);
 
-            var entity = bytes != null ?
-                bytes.ToEntity<UserKeyDistributionEntity>() :
-                await unitOfWork.UserKeyDistributions.GetByIds(assigneeId, assignerId); ;
-
-            if (entity != null) await Cache.SetBytesWithAbsoluteExpiration(key, entity.ToByteArray(), ExpireUserKey);
-            return entity;
-        }
-        
         async Task Validatable(int actorId, UserKeyRequestModel model)
         {
             var userSession = await GetUserKeySession(actorId);

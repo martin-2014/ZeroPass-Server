@@ -43,7 +43,7 @@ deploy-api-dev:      # This job runs in the deploy stage.
     - 'eval "$UPDATE_FUNCTION_CMD"'
   environment:
     name: api-development
-    url: https://wqq4x99e10.execute-api.ap-southeast-1.amazonaws.com/Prod/
+    url: https://ac79osmcj6.execute-api.ap-southeast-1.amazonaws.com/Prod/
   when: manual
 
 deploy-api-test:      # This job runs in the deploy stage.
@@ -64,5 +64,5 @@ deploy-api-test:      # This job runs in the deploy stage.
     - 'eval "$UPDATE_FUNCTION_CMD"'
   environment:
     name: api-testing
-    url: https://fq15b834p7.execute-api.ap-southeast-1.amazonaws.com/Prod/
+    url: https://05otvoftc2.execute-api.ap-southeast-1.amazonaws.com/Prod/
   when: manual

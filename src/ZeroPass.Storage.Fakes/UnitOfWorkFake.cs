@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ZeroPass.Storage.Fakes
 {
-    public class UnitOfWorkFake : IUnitOfWork
+    public partial class UnitOfWorkFake : IUnitOfWork
     {
         readonly FakeDatabase Database;
         Action ReleaseConnection;
@@ -18,7 +18,7 @@ namespace ZeroPass.Storage.Fakes
         public IDomainUserRepository DomainUsers => new DomainUserRepositoryFake(Database);
         public IUserProfileRepository UserProfiles => new UserProfileRepositoryFake(Database);
         public IUserKeyRepository UserKeys => new UserKeyRepositoryFake(Database);
-        public IUserKeyDistributionRepository UserKeyDistributions => new UserKeyDistributionRepositoryFake(Database);
+        public INotificationRepository Notifications => new NotificationRepositoryFake(Database);
 
         public Task BeginTrans() => Task.CompletedTask;
 

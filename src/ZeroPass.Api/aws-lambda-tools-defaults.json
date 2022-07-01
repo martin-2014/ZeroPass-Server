@@ -6,10 +6,10 @@
     "All the command line options for the Lambda command can be specified in this file."
   ],
   "profile": "default",
-  "region": "ap-southeast-1",
+  "region": "ap-northeast-1",
   "configuration": "Release",
   "s3-prefix": "ZeroPass.Core.Api/",
   "template": "serverless.template",
   "template-parameters": "",
-  "docker-host-build-output-dir": "./bin/Release/lambda-publish"
+  "docker-host-build-output-dir": "./bin/Release/netcoreapp3.1/lambda-publish"
 }
