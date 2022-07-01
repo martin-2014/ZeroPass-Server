@@ -22,7 +22,8 @@ namespace ZeroPass.Service
             .AddScoped<ITokenService, TokenService>()
             .AddScoped<IUserKeyService, UserKeyService>()
             .AddScoped<ISessionFactory, SessionFactory>()
-            .AddScoped<IUserProfileService, UserProfileService>();
+            .AddScoped<IUserProfileService, UserProfileService>()
+            .AddScoped<INotificationService, NotificationService>();
 
         public static IServiceCollection UseCodeGenerator(this IServiceCollection services)
             => services.AddScoped<IRandom, Randomizer>();

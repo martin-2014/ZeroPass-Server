@@ -1,6 +1,6 @@
 ﻿namespace ZeroPass.Storage
 {
-    public interface IRepositoryFactory
+    public partial interface IRepositoryFactory
     {
         IUserRepository Users { get; }
 
@@ -12,6 +12,6 @@
 
         IUserKeyRepository UserKeys { get; }
         
-        IUserKeyDistributionRepository UserKeyDistributions { get; }
+        INotificationRepository Notifications { get; }
     }
 }

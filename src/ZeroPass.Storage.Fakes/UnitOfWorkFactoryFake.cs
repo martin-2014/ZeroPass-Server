@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ZeroPass.Storage.Fakes
 {
-    public class UnitOfWorkFactoryFake : IUnitOfWorkFactory
+    public partial class UnitOfWorkFactoryFake : IUnitOfWorkFactory
     {
         readonly FakeDatabase Database;
         const int MaxPoolSise = 1;
