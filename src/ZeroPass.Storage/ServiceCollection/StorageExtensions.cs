@@ -21,6 +21,7 @@ namespace ZeroPass.Storage
 
         public static IServiceCollection UseUnitOfWork(this IServiceCollection services)
             => services
+                .AddSingleton<IDomainDataState, DomainDataState>()
                 .AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
         public static IServiceCollection UseCaching(this IServiceCollection services, IConfiguration config) 

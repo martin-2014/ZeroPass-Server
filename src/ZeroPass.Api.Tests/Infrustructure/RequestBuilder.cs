@@ -18,6 +18,10 @@ namespace ZeroPass.Api.Tests
         string Body { get; set; }
         IDictionary<string, string> Headers = new Dictionary<string, string>();
         IDictionary<string, string> QueryStringParameters { get; set; } = new Dictionary<string, string>();
+        APIGatewayProxyRequest.ProxyRequestContext RequestContext { get; set; }
+        bool IsBase64Encoded { get; set; } = false;
+        IDictionary<string, string> StageVariables { get; set; }
+        IDictionary<string, string> PathParameters { get; set; }
 
         public static RequestBuilder GetRequest(string path)
             => new RequestBuilder(path, GET);
@@ -61,7 +65,16 @@ namespace ZeroPass.Api.Tests
                 Headers = Headers,
                 Body = Body,
                 QueryStringParameters = QueryStringParameters,
+                RequestContext = RequestContext,
+                IsBase64Encoded = IsBase64Encoded,
+                StageVariables = StageVariables,
+                PathParameters = PathParameters
             };
+        
+        public RequestBuilder AddBearerToken(string token)
+        {
+            return AddHeader("Authorization", $"Bearer {token}");
+        }
 
         RequestBuilder AddHeader(string name, string value)
         {

@@ -12,11 +12,17 @@ namespace ZeroPass.Storage
         DomainUserRepository domainUsers;
         UserProfileRepository userProfiles;
         UserKeyRepository keys;
+        UserKeyDistributionRepository keyDistributions;
 
         public MySqlConnection MySqlConnection { get; private set; }
         MySqlTransaction MySqlTransaction;
+        readonly IDomainDataState DataState;
 
-        public UnitOfWork(MySqlConnection connection) => MySqlConnection = connection;
+        public UnitOfWork(MySqlConnection connection, IDomainDataState dataState)
+        {
+            MySqlConnection = connection;
+            DataState = dataState;
+        }
 
         public IDbConnection Connection => MySqlConnection;
         public IUserRepository Users => users ??= new UserRepository(this);
@@ -24,6 +30,7 @@ namespace ZeroPass.Storage
         public IDomainUserRepository DomainUsers => domainUsers ??= new DomainUserRepository(this);
         public IUserProfileRepository UserProfiles => userProfiles ??= new UserProfileRepository(this);
         public IUserKeyRepository UserKeys => keys ??= new UserKeyRepository(this);
+        public IUserKeyDistributionRepository UserKeyDistributions => keyDistributions ??= new UserKeyDistributionRepository(this);
 
         public async Task BeginTrans()
         {

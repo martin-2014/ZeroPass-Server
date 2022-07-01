@@ -30,6 +30,9 @@ namespace ZeroPass.Api.Tests
         protected readonly EmailServiceFake EmailServiceFake = new EmailServiceFake();
         protected readonly CacheFake CacheFake = new CacheFake();
         protected readonly ICacheKeyGenerator CacheKeyGenerator = new CacheKeyGenerator();
+        
+        UserProfileRepositoryFake userProfileRepositoryFake;
+        protected UserProfileRepositoryFake UserProfileRepositoryFake => userProfileRepositoryFake;
 
         IMapper mapper;
         protected IMapper Mapper => mapper;
@@ -55,6 +58,7 @@ namespace ZeroPass.Api.Tests
                 .AddSingleton<IEmailService>(EmailServiceFake)
                 .AddSingleton<IRandom>(CodeGeneratorFake)
                 .AddSingleton<ICache>(CacheFake)
+                .AddSingleton<IUserProfileRepository>(UserProfileRepositoryFake)
                 .AddSingleton(CacheKeyGenerator)
                 .AddSingleton(mapper); ;
         }
@@ -67,6 +71,7 @@ namespace ZeroPass.Api.Tests
             });
             mapper = mapperConfig.CreateMapper();
             userRepositoryFake = new UserRepositoryFake(FakeDatabase);
+            userProfileRepositoryFake = new UserProfileRepositoryFake(FakeDatabase);
         }
 
         protected async Task<TestResponse> Execute(APIGatewayProxyRequest request)
@@ -82,5 +87,10 @@ namespace ZeroPass.Api.Tests
         protected GenericCollectionAssertions<T> Expect<T>(IEnumerable<T> value) => value.Should();
 
         protected NumericAssertions<int> Expect(int value) => value.Should();
+        
+        public class JwtToken
+        {
+            public string Token { get; set; }
+        }
     }
 }

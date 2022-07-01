@@ -17,10 +17,22 @@ namespace ZeroPass.Api.Tests
             Database = testEnv.Database;
         }
 
-        public void CreatePersonalUsers(int count) 
+        public void CreatePersonalUsers(int count)
             => Enumerable
                 .Range(0, count)
-                .Select(_ => CreatePersonalUser())
+                .Select(_ =>
+                {
+                    var user = CreatePersonalUser();
+                    var domain = CreatePersonalDomain();
+                    CreatePersonalDomainUser(user.Id, domain.Id);
+                    CreateProfile(user.Id);
+
+                    var testUser = new TestUser(user.Id, TestEnv);
+                    var userSecret = CreateTestUserSecret(testUser);
+                    CreateUserKey(userSecret);
+
+                    return testUser;
+                })
                 .ToList();
 
         public UserEntity CreatePersonalUser()
@@ -35,6 +47,24 @@ namespace ZeroPass.Api.Tests
             };
             Database.Users.Add(user);
             return user;
+        }
+        
+        TestDomain CreatePersonalDomain()
+        {
+            var domainId = Database.AllocateDomainId();
+            Database.Domains.Add(new DomainEntity
+            {
+                Id = domainId,
+                DomainName = $"Personal{domainId}",
+                Company = $"Personal{domainId}",
+                DomainType = DomainType.Personal,
+            });
+            Database.DomainInfos.Add(new DomainInfoEntity
+            {
+                DomainId = domainId,
+                Timezone = "+8:00"
+            });
+            return new TestDomain(domainId, TestEnv);
         }
 
         TestUserSecret CreateTestUserSecret(TestUser user)
@@ -53,5 +83,28 @@ namespace ZeroPass.Api.Tests
         void CreateUserKey(TestUserSecret userSecret)
             => Database.UserKeys.Add(TestSecretBuilder.CreateUserKeyEntity(
                 userSecret.UserId, userSecret.Email, userSecret.Password, userSecret.SecretKey));
+        
+        DomainUserEntity CreatePersonalDomainUser(int userId, int domainId)
+        {
+            var domainUser = new DomainUserEntity
+            {
+                DomainId = domainId,
+                UserId = userId,
+                IsOwner = false,
+                IsAdmin = false,
+                Status = UserStatus.Active,
+                CreatedBy = -1,
+                CreateTime = System.DateTime.MinValue
+            };
+            Database.DomainUsers.Add(domainUser);
+            return domainUser;
+        }
+        
+        void CreateProfile(int userId)
+            => Database.UserProfiles.Add(new UserProfileEntity
+            {
+                UserId = userId,
+                Timezone = "+8:00"
+            });
     }
 }

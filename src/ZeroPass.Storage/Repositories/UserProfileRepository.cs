@@ -17,8 +17,23 @@ namespace ZeroPass.Storage
                 "(user_id, timezone)" +
                 "VALUES " +
                 "(@UserId, @Timezone);";
+            
             await Connection.ExecuteAsync(sql, entity);
         }
 
+        public Task<UserProfileView> GetProfile(int userId)
+        {
+            var query = @"SELECT 
+	                    u.id, 
+                        u.user_type,
+                        u.user_name, 
+                        u.email, 
+                        up.timezone
+                    FROM t_user u INNER JOIN 
+	                    t_user_profile up ON u.id = up.user_id
+                    WHERE u.id = @UserId";
+            
+            return Connection.QueryFirstOrDefaultAsync<UserProfileView>(query, new { UserId = userId });
+        }
     }
 }

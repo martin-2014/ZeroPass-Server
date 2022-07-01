@@ -129,4 +129,10 @@
   <data name="ErrorServerError" xml:space="preserve">
     <value>err_server_error</value>
   </data>
+  <data name="ErrorAuthenticationFailed" xml:space="preserve">
+    <value>err_authentication_failed</value>
+  </data>
+  <data name="ErrorNotFound" xml:space="preserve">
+    <value>err_record_not_found</value>
+  </data>
 </root>

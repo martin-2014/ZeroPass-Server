@@ -18,6 +18,7 @@ namespace ZeroPass.Storage.Fakes
         public IDomainUserRepository DomainUsers => new DomainUserRepositoryFake(Database);
         public IUserProfileRepository UserProfiles => new UserProfileRepositoryFake(Database);
         public IUserKeyRepository UserKeys => new UserKeyRepositoryFake(Database);
+        public IUserKeyDistributionRepository UserKeyDistributions => new UserKeyDistributionRepositoryFake(Database);
 
         public Task BeginTrans() => Task.CompletedTask;
 
