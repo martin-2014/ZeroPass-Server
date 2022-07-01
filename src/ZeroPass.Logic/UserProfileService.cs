@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ZeroPass.Model.Models;
-using ZeroPass.Model.Models.UserProfiles;
 using ZeroPass.Model.Service;
 using ZeroPass.Storage;
+using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Service
 {
@@ -32,6 +33,34 @@ namespace ZeroPass.Service
 
             profileModel.Domains = domainOfUsers;
             return profileModel;
+        }
+        
+        public async Task UpdateUserProfile(IDomainActor actor, UserProfileUpdateModel model)
+        {
+            using var unitOfWork = await UnitOfWorkFactory.CreateWrite();
+            await unitOfWork.BeginTrans();
+            try
+            {
+                await unitOfWork.UserProfiles.Update(new UserProfileEntity
+                {
+                    UserId = actor.UserId,
+                    Timezone = model.Timezone
+                });
+                await unitOfWork.Users.UpdateUserName(actor.UserId, model.UserName);
+                await unitOfWork.Domains.UpdateDomainLogo(new DomainInfoEntity
+                {
+                    DomainId = actor.DomainId,
+                    Logo = model.Photo,
+                    UpdatedBy = actor.UserId,
+                    UpdateTime = DateTime.UtcNow
+                });
+                await unitOfWork.CommitTrans();
+            }
+            catch
+            {
+                await unitOfWork.RollbackTrans();
+                throw;
+            }
         }
     }
 }

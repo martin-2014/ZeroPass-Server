@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ZeroPass.Model.Models;
-using ZeroPass.Model.Models.UserProfiles;
 using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Service

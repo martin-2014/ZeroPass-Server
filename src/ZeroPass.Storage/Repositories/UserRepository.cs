@@ -28,5 +28,12 @@ namespace ZeroPass.Storage
                "select last_insert_id();";
             return Connection.ExecuteScalarAsync<int>(sql, entity);
         }
+        
+        public async Task UpdateUserName(int userId, string userName)
+        {
+            await Connection.ExecuteAsync(
+                "UPDATE t_user SET user_name=@UserName WHERE id=@UserId",
+                new { UserName = userName, UserId = userId });
+        }
     }
 }

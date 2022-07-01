@@ -29,5 +29,12 @@ namespace ZeroPass.Storage.Fakes
             UserEntities.Add(entity);
             return Task.FromResult(entity.Id);
         }
+        
+        public Task UpdateUserName(int userId, string userName)
+        {
+            var user = UserEntities.FirstOrDefault(u => u.Id == userId);
+            user.UserName = userName;
+            return Task.CompletedTask;
+        }
     }
 }
