@@ -22,7 +22,7 @@ public class NotificationRepositoryFake : INotificationRepository
             var n = Notifications.FirstOrDefault(n => n.Id == id);
             if (n == null) return null;
 
-            return await Task.FromResult(ConverToGeneric<T>(n));
+            return await Task.FromResult(ConvertToGeneric<T>(n));
         }
 
         public Task Insert<T>(NotificationEntity<T> value)
@@ -44,7 +44,7 @@ public class NotificationRepositoryFake : INotificationRepository
         public Task<IEnumerable<NotificationEntity<T>>> ListActive<T>(int userId)
         {
             var ns = Notifications.Where(n => n.UserId == userId && n.Status == 1);
-            return Task.FromResult(ns.Select(ConverToGeneric<T>));
+            return Task.FromResult(ns.Select(ConvertToGeneric<T>));
         }
 
         public Task Process(int userId, IEnumerable<int> ids, int newStatus, JsonElement result)
@@ -60,7 +60,7 @@ public class NotificationRepositoryFake : INotificationRepository
             Notifications.Where(n => n.UserId == userId && ids.Contains(n.Id)).ToList().ForEach(n => n.Status = newStatus);
             return Task.CompletedTask;
         }
-        static NotificationEntity<T> ConverToGeneric<T>(NotificationEntity<JsonElement, JsonElement> value)
+        static NotificationEntity<T> ConvertToGeneric<T>(NotificationEntity<JsonElement, JsonElement> value)
         {
             var result = new NotificationEntity<T>
         {

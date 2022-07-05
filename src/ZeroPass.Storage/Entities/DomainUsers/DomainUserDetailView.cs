@@ -1,4 +1,6 @@
-﻿namespace ZeroPass.Storage.Entities
+﻿using ZeroPass.Model.Models;
+
+namespace ZeroPass.Storage.Entities
 {
     public class DomainUserDetailView
     {

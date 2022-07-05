@@ -10,13 +10,13 @@ namespace ZeroPass.Api.Tests
         public int StatusCode { get; }
         public TestResponseBody Body { get; }
 
-        public TestResponse(APIGatewayProxyResponse reponse)
+        public TestResponse(APIGatewayProxyResponse response)
         {
-            Origin = reponse;
-            StatusCode = reponse.StatusCode;
-            Body = string.IsNullOrEmpty(reponse.Body) ?
+            Origin = response;
+            StatusCode = response.StatusCode;
+            Body = string.IsNullOrEmpty(response.Body) ?
                 new TestResponseBody() :
-                JsonConvert.DeserializeObject<TestResponseBody>(reponse.Body);
+                JsonConvert.DeserializeObject<TestResponseBody>(response.Body);
         }
 
         public bool IsSuccess => StatusCode == (int)HttpStatusCode.OK && string.IsNullOrEmpty(Body.Error?.Id);

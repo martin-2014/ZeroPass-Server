@@ -7,16 +7,12 @@ namespace ZeroPass.Storage.Fakes
 {
     public partial class DomainUserRepositoryFake : IDomainUserRepository
     {
-        public readonly List<DomainUserEntity> DomainUserEntities;
-        public readonly List<DomainEntity> DomainEntities;
-        public readonly List<DomainInfoEntity> DomainInfoEntities;
+        public List<DomainUserEntity> DomainUserEntities;
+        public List<DomainEntity> DomainEntities;
+        public List<DomainInfoEntity> DomainInfoEntities;
+        public List<UserEntity> UserEntities;
 
-        public DomainUserRepositoryFake(FakeDatabase database)
-        {
-            DomainUserEntities = database.DomainUsers;
-            DomainEntities = database.Domains;
-            DomainInfoEntities = database.DomainInfos;
-        }
+        public DomainUserRepositoryFake(FakeDatabase database) => Initialize(database);
 
         public Task Upsert(DomainUserEntity entity)
         {
@@ -51,7 +47,7 @@ namespace ZeroPass.Storage.Fakes
         
         public Task<DomainUserEntity> GetDomainOwnerByDomainId(int domainId)
         {
-            var entity = DomainUserEntities.FirstOrDefault(d => d.DomainId == domainId && d.IsOwner == true);
+            var entity = DomainUserEntities.FirstOrDefault(d => d.DomainId == domainId && d.IsOwner);
             return Task.FromResult(entity);
         }
         

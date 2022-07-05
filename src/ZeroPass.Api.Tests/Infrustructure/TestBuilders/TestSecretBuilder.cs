@@ -27,12 +27,12 @@ namespace ZeroPass.Api.Tests
 
         public UserKeyEntity CreateUserKeyEntity(int userId, string email, string password, string secretKey)
         {
-            var masterkey = DeriveMasterPassword(password, secretKey);
+            var masterKey = DeriveMasterPassword(password, secretKey);
 
             var client = new SrpClient();
             var salt = client.GenerateSalt();
 
-            var privateKey = client.DerivePrivateKey(salt, email, masterkey);
+            var privateKey = client.DerivePrivateKey(salt, email, masterKey);
             var verifier = client.DeriveVerifier(privateKey);
 
             return new UserKeyEntity
@@ -40,7 +40,7 @@ namespace ZeroPass.Api.Tests
                 UserId = userId,
                 Salt = salt,
                 Verifier = verifier,
-                PrivateDataKey = CryptoService.EncryptText(GetPrivateKey(), masterkey),
+                PrivateDataKey = CryptoService.EncryptText(GetPrivateKey(), masterKey),
                 PublicDataKey = GetPublicKey()
             };
         }
@@ -48,14 +48,14 @@ namespace ZeroPass.Api.Tests
         public string DeriveMasterPassword(string password, string secretKey)
         {
             var secretKeyBuffer = ConvertService.FromHexString(secretKey);
-            var deriveationKeyBuffer = KeyDerivation.Pbkdf2(password, secretKeyBuffer, KeyDerivationPrf.HMACSHA256, 100000, 32);
+            var derivationKeyBuffer = KeyDerivation.Pbkdf2(password, secretKeyBuffer, KeyDerivationPrf.HMACSHA256, 100000, 32);
 
-            return ConvertService.ToHexString(deriveationKeyBuffer).ToLower();
+            return ConvertService.ToHexString(derivationKeyBuffer).ToLower();
         }
 
         string GetPrivateKey()
         {
-            //pkcs8 格式
+            //pkcs8 format
             return "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC9Npctw7qT63IRkyx0eF5KL+0xYYuR/5bifQmY4izbHZPtWaM2C3o/" +
                 "h0WKuiLjLT6vp2zPkENasXrAGsN1aqeLKVMRWtNg/ilOiAzlLu6G2BSD9QqTSzrR4JToWTkYqOhpRXA4iBc5YjCKeDN+qHTx0PxQQTnULM" +
                 "1hKWCyWkamffUZkJJ40bUKi7xCtW9/unTSWavxoGfd2xr0PqDwZqg1RuScx7jVXMwzf0mQFXJcMGpXjKAc/tSbMx4A4ge2bJbMS2uudhPT" +

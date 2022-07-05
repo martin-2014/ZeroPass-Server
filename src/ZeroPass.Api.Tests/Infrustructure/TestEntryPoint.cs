@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 using System.Text.Json;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.AspNetCoreServer.Internal;
@@ -39,7 +40,7 @@ namespace ZeroPass.Api.Tests
                     .AddControllersAsServices()
                     .AddApplicationPart(typeof(Startup).Assembly);
 
-                services.AddMediatR(typeof(Startup));
+                services.AddMediatR(Assembly.GetAssembly(typeof(ZeroPass.Service.NotificationService)));
                 IAuthorizationConfiguration authConfig = new AuthorizationConfiguration(Configuration);
                 services = services
                     .UseAuthentication(authConfig)

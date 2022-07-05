@@ -6,7 +6,7 @@ namespace ZeroPass.Storage.Fakes
     public partial class UnitOfWorkFactoryFake : IUnitOfWorkFactory
     {
         readonly FakeDatabase Database;
-        const int MaxPoolSise = 1;
+        const int MaxPoolSize = 1;
         int CurrentPoolSize = 0;
 
         public UnitOfWorkFactoryFake(FakeDatabase database) => Database = database;
@@ -41,7 +41,7 @@ namespace ZeroPass.Storage.Fakes
 
         void CheckPoolAvailable()
         {
-            if (CurrentPoolSize >= MaxPoolSise)
+            if (CurrentPoolSize >= MaxPoolSize)
             {
                 throw new TimeoutException("Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.");
             }

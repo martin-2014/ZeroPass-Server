@@ -7,7 +7,7 @@ namespace ZeroPass.Model.Models
         [Required]
         public string Email { get; set; }
 
-        //SRP Identifier of clinet
+        //SRP Identifier of client
         [Required]
         public string IdentifierProof { get; set; }
     }

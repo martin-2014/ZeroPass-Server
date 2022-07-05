@@ -13,11 +13,6 @@ namespace ZeroPass.Api
     {
         readonly IUserService UserService;
 
-        public UsersController(IUserService userService)
-        {
-            UserService = userService;
-        }
-
         [HttpGet("registration/{email}")]
         [ApiResponseSuccess()]
         [ApiResponseError(nameof(Resources.ErrorEmailDuplicate))]

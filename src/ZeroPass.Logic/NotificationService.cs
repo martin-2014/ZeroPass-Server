@@ -7,7 +7,7 @@ using ZeroPass.Storage;
 
 namespace ZeroPass.Service
 {
-    public class NotificationService : INotificationService
+    public partial class NotificationService : INotificationService
     {
         readonly IUnitOfWorkFactory UnitOfWorkFactory;
 

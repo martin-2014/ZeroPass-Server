@@ -26,11 +26,11 @@ namespace ZeroPass.Service
             var tagBuffer = cipherBuffer.TakeLast(TagByteSizes).ToArray();
 
             var plainBuffer = new byte[cipherBuffer.Length - additionalDataLength];
-            var oayloadBuffer = cipherBuffer.Skip(NonceByteSizes).Take(plainBuffer.Length).ToArray();
+            var payloadBuffer = cipherBuffer.Skip(NonceByteSizes).Take(plainBuffer.Length).ToArray();
 
             var keyBuffer = ConvertService.FromHexString(cryptoKey);
             using var crypto = new AesGcm(keyBuffer);
-            crypto.Decrypt(nonceBuffer, oayloadBuffer, tagBuffer, plainBuffer);
+            crypto.Decrypt(nonceBuffer, payloadBuffer, tagBuffer, plainBuffer);
             return Encoding.UTF8.GetString(plainBuffer);
         }
 

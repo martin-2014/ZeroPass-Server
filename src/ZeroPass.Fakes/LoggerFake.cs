@@ -5,7 +5,7 @@ namespace ZeroPass.Fakes
 {
     public class LoggerFake : ISharedLogger
     {
-        public class DummpyDisposible : IDisposable
+        public class DummyDisposable : IDisposable
         {
             public void Dispose()
             {
@@ -14,7 +14,7 @@ namespace ZeroPass.Fakes
         }
 
         public IDisposable BeginScope(string format, params object[] parameters)
-            => new DummpyDisposible();
+            => new DummyDisposable();
 
         public void LogError(string message)
         {

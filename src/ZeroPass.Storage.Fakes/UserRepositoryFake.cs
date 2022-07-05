@@ -5,16 +5,19 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Storage.Fakes
 {
-    public class UserRepositoryFake : IUserRepository
+    public partial class UserRepositoryFake : IUserRepository
     {
         readonly FakeDatabase Database;
 
         public readonly List<UserEntity> UserEntities;
+        
+        public readonly List<DomainUserEntity> DomainUserEntities;
 
         public UserRepositoryFake(FakeDatabase database)
         {
             Database = database;
             UserEntities = database.Users;
+            DomainUserEntities = database.DomainUsers;
         }
 
         public Task<UserEntity> GetByEmail(string email)
@@ -35,6 +38,12 @@ namespace ZeroPass.Storage.Fakes
             var user = UserEntities.FirstOrDefault(u => u.Id == userId);
             user.UserName = userName;
             return Task.CompletedTask;
+        }
+        
+        public Task<UserEntity> GetUserById(int id)
+        {
+            var user = UserEntities.FirstOrDefault(u => u.Id == id);
+            return Task.FromResult(user);
         }
     }
 }

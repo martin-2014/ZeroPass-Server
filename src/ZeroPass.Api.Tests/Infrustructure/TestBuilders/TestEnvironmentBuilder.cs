@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ZeroPass.Model.Models;
 using ZeroPass.Storage.Entities;
 using ZeroPass.Storage.Fakes;
 

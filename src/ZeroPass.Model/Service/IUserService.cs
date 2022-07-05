@@ -3,7 +3,7 @@ using ZeroPass.Model.Models;
 
 namespace ZeroPass.Model.Service
 {
-    public interface IUserService
+    public partial interface IUserService
     {
         Task<bool> ExistsUserByEmail(string email);
 

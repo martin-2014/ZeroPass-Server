@@ -37,9 +37,9 @@ namespace ZeroPass.Service
             return result.ToString();
         }
 
-        static bool IsHexChar(char charater)
+        static bool IsHexChar(char character)
         {
-            char upperChar = Char.ToUpper(charater);
+            char upperChar = Char.ToUpper(character);
             return ((upperChar >= 48 && upperChar <= 57) || (upperChar >= 65 && upperChar <= 70)) ? true : false;
         }
     }

@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 
 namespace ZeroPass.Storage
 {
-    internal class UnitOfWork : IUnitOfWork
+    internal partial class UnitOfWork : IUnitOfWork
     {
         UserRepository users;
         DomainRepository domains;
         DomainUserRepository domainUsers;
         UserProfileRepository userProfiles;
         UserKeyRepository keys;
-        UserKeyDistributionRepository keyDistributions;
         NotificationRepository notifications;
 
         public MySqlConnection MySqlConnection { get; private set; }
@@ -31,7 +30,6 @@ namespace ZeroPass.Storage
         public IDomainUserRepository DomainUsers => domainUsers ??= new DomainUserRepository(this);
         public IUserProfileRepository UserProfiles => userProfiles ??= new UserProfileRepository(this);
         public IUserKeyRepository UserKeys => keys ??= new UserKeyRepository(this);
-        public IUserKeyDistributionRepository UserKeyDistributions => keyDistributions ??= new UserKeyDistributionRepository(this);
         public INotificationRepository Notifications => notifications ??= new NotificationRepository(this);
 
         public async Task BeginTrans()
@@ -71,6 +69,11 @@ namespace ZeroPass.Storage
             await DisposeAsyncCore().ConfigureAwait(false);
             Dispose(false);
             GC.SuppressFinalize(this);
+        }
+        
+        public Task SetDirty(int domainId, DomainDataType types)
+        {
+            return DataState.SetDirty(domainId, types);
         }
 
         void Dispose(bool disposing)

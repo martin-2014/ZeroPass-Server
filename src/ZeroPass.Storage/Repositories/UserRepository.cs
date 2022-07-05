@@ -5,7 +5,7 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Storage
 {
-    internal class UserRepository : IUserRepository
+    internal partial class UserRepository : IUserRepository
     {
         readonly IDbConnection Connection;
         public UserRepository(IUnitOfWork unitOfWork) => Connection = unitOfWork.Connection;
@@ -34,6 +34,14 @@ namespace ZeroPass.Storage
             await Connection.ExecuteAsync(
                 "UPDATE t_user SET user_name=@UserName WHERE id=@UserId",
                 new { UserName = userName, UserId = userId });
+        }
+        
+        public async Task<UserEntity> GetUserById(int id)
+        {
+            var sql = $@"select id, email, user_type, user_name     
+                from t_user 
+                where id = @Id";
+            return await Connection.QueryFirstOrDefaultAsync<UserEntity>(sql, new { Id = id });
         }
     }
 }
