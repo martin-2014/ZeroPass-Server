@@ -13,5 +13,7 @@ namespace ZeroPass.Storage
         Task CommitTrans();
 
         Task RollbackTrans();
+        
+        Task SetDirty(int domainId, DomainDataType types);
     }
 }

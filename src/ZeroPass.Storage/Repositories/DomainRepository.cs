@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Collections.Generic;
+using Dapper;
 using System.Data;
 using System.Threading.Tasks;
 using ZeroPass.Storage.Entities;
@@ -46,7 +47,26 @@ namespace ZeroPass.Storage
                       "update_time = @UpdateTime, " +
                       "updated_by = @UpdatedBy " +
                       "where domain_id = @DomainId";
+            
             await Connection.ExecuteAsync(sql, entity);
+        }
+        
+        public Task<IEnumerable<DomainEntity>> GetDomainByIds(IEnumerable<int> ids)
+        {
+            var sql = $@"select id, domain_type, domain_name, company, create_time
+                from t_domain 
+                where id in @Ids";
+            
+            return Connection.QueryAsync<DomainEntity>(sql, new { Ids = ids });
+        }
+        
+        public Task<DomainEntity> GetDomainById(int id)
+        {
+            var sql = $@"select id, domain_type, domain_name, company, create_time
+                from t_domain 
+                where id = @Id";
+            
+            return Connection.QueryFirstOrDefaultAsync<DomainEntity>(sql, new { Id = id });
         }
     }
 }

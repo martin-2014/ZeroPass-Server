@@ -29,5 +29,10 @@ namespace ZeroPass.Storage.Fakes
         public void Dispose() => ReleaseConnection();
 
         public ValueTask DisposeAsync() => new ValueTask();
+        
+        public Task SetDirty(int domainId, DomainDataType types)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

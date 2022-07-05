@@ -76,8 +76,8 @@ namespace ZeroPass.Api.Tests
 
         protected async Task<TestResponse> Execute(APIGatewayProxyRequest request)
         {
-            var reponse = await FunctionHandlerAsync(request, new TestLambdaContext());
-            return new TestResponse(reponse);
+            var response = await FunctionHandlerAsync(request, new TestLambdaContext());
+            return new TestResponse(response);
         }
 
         protected BooleanAssertions Expect(bool value) => value.Should();
@@ -87,6 +87,8 @@ namespace ZeroPass.Api.Tests
         protected GenericCollectionAssertions<T> Expect<T>(IEnumerable<T> value) => value.Should();
 
         protected NumericAssertions<int> Expect(int value) => value.Should();
+        
+        protected ObjectAssertions Expect(object value) => value.Should();
         
         public class JwtToken
         {

@@ -1,14 +1,8 @@
 ﻿using System;
+using ZeroPass.Model.Models;
 
 namespace ZeroPass.Storage.Entities
 {
-    public enum UserStatus : int
-    {
-        Pending = 0,
-        Active = 1,
-        Inactive = 2,
-    }
-
     [Serializable]
     public class DomainUserEntity
     {

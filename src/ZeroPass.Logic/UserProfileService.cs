@@ -29,7 +29,7 @@ namespace ZeroPass.Service
 
             var domains = await unitOfWork.DomainUsers.GetDomainDetailsByUserId(actor.UserId);
             var domainOfUsers = Mapper.Map<IEnumerable<DomainOfUserModel>>(
-                domains.Where(d => d.Status == Storage.Entities.UserStatus.Active));
+                domains.Where(d => d.Status == UserStatus.Active));
 
             profileModel.Domains = domainOfUsers;
             return profileModel;

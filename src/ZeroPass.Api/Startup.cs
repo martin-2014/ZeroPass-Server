@@ -1,3 +1,4 @@
+using System.Reflection;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +44,7 @@ namespace ZeroPass.Api
                 .UseNotification()
                 .UseDataSecurity()
                 .UserMapper()
-                .AddMediatR(typeof(Startup)); ;
+                .AddMediatR(Assembly.GetAssembly(typeof(ZeroPass.Service.NotificationService)));
 
             services.AddSingleton<ISharedLogger, SharedLogger>();
         }

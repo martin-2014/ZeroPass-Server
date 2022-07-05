@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Storage
@@ -12,5 +13,9 @@ namespace ZeroPass.Storage
         Task<DomainEntity> GetDomainByName(string domainName);
         
         Task UpdateDomainLogo(DomainInfoEntity entity);
+        
+        Task<IEnumerable<DomainEntity>> GetDomainByIds(IEnumerable<int> ids);
+        
+        Task<DomainEntity> GetDomainById(int id);
     }
 }

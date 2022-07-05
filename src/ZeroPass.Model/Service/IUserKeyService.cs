@@ -3,7 +3,7 @@ using ZeroPass.Model.Models;
 
 namespace ZeroPass.Model.Service
 {
-    public interface IUserKeyService
+    public partial interface IUserKeyService
     {
         Task<UserPublicKeyModel> ExchangePublicKey(UserExchangePublicKeyModel model);
         

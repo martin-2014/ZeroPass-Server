@@ -7,6 +7,8 @@ namespace ZeroPass.Storage
 {
     public interface INotificationRepository
     {
+        Task Insert<T>(IEnumerable<NotificationEntity<T>> values);
+        
         Task SetStatus(int userId, IEnumerable<int> ids, int newStatus);
 
         Task Process(int userId, IEnumerable<int> ids, int newStatus, JsonElement result);

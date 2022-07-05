@@ -6,7 +6,7 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Service
 {
-    public class UserKeyService : IUserKeyService
+    public partial class UserKeyService : IUserKeyService
     {
         const int ExpireDomainOwner = 60 * 60 * 1000;
         

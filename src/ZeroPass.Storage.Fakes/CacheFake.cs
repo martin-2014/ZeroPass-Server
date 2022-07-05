@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ZeroPass.Storage.Fakes
@@ -44,5 +46,12 @@ namespace ZeroPass.Storage.Fakes
         }
         
         public Task SlidingExpiration(string key) => Task.CompletedTask;
+        
+        public Task<IEnumerable<string>> GetKeys(string pattern)
+        {
+            var regexPattern = pattern.Replace("$", "\\$").Replace(".", "\\.").Replace("*", ".*");
+            var keys = Values.Keys.Where(k => Regex.IsMatch(k, regexPattern));
+            return Task.FromResult(keys);
+        }
     }
 }

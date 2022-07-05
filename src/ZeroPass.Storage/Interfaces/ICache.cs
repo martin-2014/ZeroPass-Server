@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ZeroPass.Storage
 {
@@ -17,5 +18,7 @@ namespace ZeroPass.Storage
         Task SetBytesWithAbsoluteExpiration(string key, byte[] value, int expireInMsec);
 
         Task SlidingExpiration(string key);
+        
+        Task<IEnumerable<string>> GetKeys(string pattern);
     }
 }

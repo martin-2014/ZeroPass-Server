@@ -17,25 +17,6 @@ namespace ZeroPass.Service
         public const string DomainOwnerRoleName = "DomainOwner";
         public const string DomainAdminRoleName = "DomainAdmin";
 
-        readonly IHttpContextAccessor HttpContextAccessor;
-
-        public PolicyRoleHandler(IHttpContextAccessor httpContextAccessor)
-            => HttpContextAccessor = httpContextAccessor;
-
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRoleRequirement requirement)
-        {
-            var routeData = HttpContextAccessor.HttpContext.Request.Body;
-
-            if (context.User == null || !context.User.Identity.IsAuthenticated || !ValidateClaims(context.User.Claims))
-            {
-                context.Fail();
-                return Task.CompletedTask;
-            }
-
-            context.Succeed(requirement);
-            return Task.CompletedTask;
-        }
-        
         bool IsRequirementSatisfied(PolicyRoleRequirement requirement, DomainUserEntity user)
         {
             if (requirement.AllowedRoles == null || !requirement.AllowedRoles.Any())

@@ -13,7 +13,7 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Service
 {
-    public interface IUserKeyInternalService
+    public partial interface IUserKeyInternalService
     {
         Task<bool> CreateUserKey(IUnitOfWork unitOfWork, UserKeyCreateModel model);
 
@@ -34,25 +34,11 @@ namespace ZeroPass.Service
         const int ExpireAuthentication = 60 * 1000;
         const int ExpireSession = 24 * 60 * 60 * 1000;
         
-        readonly IMapper Mapper;
-        readonly ICacheKeyGenerator CacheKeyGenerator;
-        readonly ICache Cache;
         readonly ISessionFactory SessionFactory;
+        readonly ICacheKeyGenerator CacheKeyGenerator;
+        readonly IMapper Mapper;
+        readonly ICache Cache;
         readonly ICryptoService CryptoService;
-
-        public UserKeyInternalService(
-            IMapper mapper,
-            ICacheKeyGenerator cacheKeyGenerator,
-            ICache cache, 
-            ISessionFactory sessionFactory, 
-            ICryptoService cryptoService)
-        {
-            Mapper = mapper;
-            CacheKeyGenerator = cacheKeyGenerator;
-            Cache = cache;
-            SessionFactory = sessionFactory;
-            CryptoService = cryptoService;
-        }
 
         public async Task<bool> CreateUserKey(IUnitOfWork unitOfWork, UserKeyCreateModel model)
         {

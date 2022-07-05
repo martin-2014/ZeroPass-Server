@@ -4,16 +4,18 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Service
 {
-    public class MappingProfile : Profile
+    public sealed partial class MappingProfile : Profile
     {
-        public MappingProfile()
+        public MappingProfile() => Initialize();
+
+        void InitializeMappings()
         {
             // Activation
             CreateMap<RegistrationEntity, CodeVerifyResultModel>();
 
             //EncryptionKey
             CreateMap<UserKeyCreateModel, UserKeyEntity>();
-            
+
             // User Profile
             CreateMap<UserProfileView, UserProfileModel>();
             CreateMap<DomainUserDetailView, DomainOfUserModel>();

@@ -17,6 +17,13 @@ namespace ZeroPass.Storage
             Connection = unitOfWork.Connection;
         }
         
+        public async Task Insert<T>(IEnumerable<NotificationEntity<T>> values)
+        {
+            var sql = @"insert into t_notification (user_id, type, status, body, create_time)
+                values (@UserId, @Type, @Status, @Body, @CreateTime)";
+            await Connection.ExecuteAsync(sql, values);
+        }
+        
         public async Task SetStatus(int userId, IEnumerable<int> ids, int newStatus) 
         {
             var sql = @"update t_notification 

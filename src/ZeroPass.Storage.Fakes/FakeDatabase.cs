@@ -4,7 +4,7 @@ using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Storage.Fakes
 {
-    public class FakeDatabase
+    public partial class FakeDatabase
     {
         int GlobalUserId = 1;
         public readonly List<UserEntity> Users = new List<UserEntity>();
@@ -26,11 +26,9 @@ namespace ZeroPass.Storage.Fakes
 
         public readonly List<TestUserSecret> UserSecrets = new List<TestUserSecret>();
         
-        public readonly List<UserKeyDistributionEntity> UserKeyDistribution = new List<UserKeyDistributionEntity>();
-        
-        int GlobalNoticationId = 1;
+        int GlobalNotificationId = 1;
         public readonly List<NotificationEntity<JsonElement, JsonElement>> Notifications = new List<NotificationEntity<JsonElement, JsonElement>>();
         public int AllocateNotificationId()
-            => GlobalNoticationId++;
+            => GlobalNotificationId++;
     }
 }

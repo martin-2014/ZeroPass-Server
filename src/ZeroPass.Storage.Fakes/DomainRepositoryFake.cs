@@ -12,7 +12,7 @@ namespace ZeroPass.Storage.Fakes
         public readonly List<DomainEntity> DomainEntities;
         public readonly List<DomainInfoEntity> DomainInfoEntities;
 
-        public DomainRepositoryFake(FakeDatabase database)
+        public DomainRepositoryFake(FakeDatabase database) : base(database.Domains)
         {
             Database = database;
             DomainEntities = database.Domains;
@@ -42,6 +42,18 @@ namespace ZeroPass.Storage.Fakes
             var item = DomainInfoEntities.FirstOrDefault(d => d.DomainId == entity.DomainId);
             item.Logo = entity.Logo;
             return Task.CompletedTask;
+        }
+        
+        public Task<IEnumerable<DomainEntity>> GetDomainByIds(IEnumerable<int> ids)
+        {
+            var domains = DomainEntities.Where(d => ids.Contains(d.Id));
+            return Task.FromResult(domains);
+        }
+        
+        public Task<DomainEntity> GetDomainById(int id)
+        {
+            var entity = DomainEntities.FirstOrDefault(d => d.Id == id);
+            return Task.FromResult(entity);
         }
     }
 }
