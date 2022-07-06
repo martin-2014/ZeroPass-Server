@@ -58,6 +58,15 @@ namespace ZeroPass.Storage
             await DisposeTrans();
         }
 
+        async Task DisposeTrans()
+        {
+            if (MySqlTransaction == null) return;
+
+            var tran = MySqlTransaction;
+            MySqlTransaction = null;
+            await tran.DisposeAsync();
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -70,16 +79,13 @@ namespace ZeroPass.Storage
             Dispose(false);
             GC.SuppressFinalize(this);
         }
-        
-        public Task SetDirty(int domainId, DomainDataType types)
-        {
-            return DataState.SetDirty(domainId, types);
-        }
 
         void Dispose(bool disposing)
         {
             if (disposing)
             {
+                MySqlTransaction?.Dispose();
+                MySqlTransaction = null;
                 MySqlConnection?.Dispose();
                 MySqlConnection = null;
             }
@@ -87,21 +93,22 @@ namespace ZeroPass.Storage
 
         async ValueTask DisposeAsyncCore()
         {
+            if (MySqlTransaction != null)
+            {
+                await MySqlTransaction.DisposeAsync().ConfigureAwait(false);
+            }
+            MySqlTransaction = null;
+
             if (MySqlConnection != null)
             {
                 await MySqlConnection.DisposeAsync().ConfigureAwait(false);
             }
-
             MySqlConnection = null;
         }
 
-        async Task DisposeTrans()
+        public Task SetDirty(int domainId, DomainDataType types)
         {
-            if (MySqlTransaction == null) return;
-
-            var tran = MySqlTransaction;
-            MySqlTransaction = null;
-            await tran.DisposeAsync();
+            return DataState.SetDirty(domainId, types);
         }
     }
 }
