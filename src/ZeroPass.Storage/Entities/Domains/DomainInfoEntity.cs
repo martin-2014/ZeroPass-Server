@@ -2,7 +2,7 @@
 
 namespace ZeroPass.Storage.Entities
 {
-    public class DomainInfoEntity
+    public partial class DomainInfoEntity
     {
         public int DomainId { get; set; }
 
