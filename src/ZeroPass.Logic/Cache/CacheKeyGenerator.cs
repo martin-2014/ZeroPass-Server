@@ -9,7 +9,6 @@ namespace ZeroPass.Service
         const string UserExchangeKeyPrefix = "UserExchangeKey";
         const string UserSessionPrefix = "UserSession";
         const string UserDomainOwnerPrefix = "DomainOwner";
-        const string InviteUserPrefix = "InviteUser";
 
 
         public string GenerateActivationKey(string email)
@@ -23,9 +22,9 @@ namespace ZeroPass.Service
         
         public string GenerateExchangeKey(string keyId)
             => $"{UserExchangeKeyPrefix}@{keyId}";
-        
-        public string GenerateUserKeySession(int userId)
-            => $"{UserSessionPrefix}@{userId}";
+
+        public string GenerateUserKeySession(int userId, string deviceId)
+            => $"{UserSessionPrefix}@{userId}@{deviceId}";
 
         public string GenerateDomainOwnerByDomainId(int domainId)
             => $"{UserDomainOwnerPrefix}@{domainId}";

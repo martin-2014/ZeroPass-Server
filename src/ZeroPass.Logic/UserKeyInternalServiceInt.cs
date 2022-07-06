@@ -21,15 +21,15 @@ namespace ZeroPass.Service
             CryptoService = provider.GetService<ICryptoService>();
         }
         
-        public async Task<string> GetDataKey(IUnitOfWork unitOfWork, int actorId, int assignerId, UserKeyRequestModel model)
+        public async Task<string> GetDataKey(IUnitOfWork unitOfWork, int actorId, int assignerId, UserKeyRequestModel model, string deviceId)
         {
-            await Validatable(actorId, model);
-            var userSession = await GetUserKeySession(actorId);
-            var userKey = await GetUserKeyById(unitOfWork, assignerId);
+            var userSession = await GetUserKeySession(actorId, deviceId);
+            Validatable(userSession, model);
+            var userKey = await GetUserKeyById(unitOfWork, actorId);
             var actorUserKey = await GetUserKeyById(unitOfWork, actorId);
             var dataKeyJson = JsonConvert.SerializeObject(new DataKeyModel
             {
-                AssignerId = assignerId,
+                AssignerId = actorId,
                 PublicKey = userKey.PublicDataKey,
                 SelfPrivateKey = actorUserKey.PrivateDataKey,
             });

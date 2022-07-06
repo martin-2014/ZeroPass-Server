@@ -7,10 +7,10 @@ namespace ZeroPass.Model.Service
     {
         Task<UserPublicKeyModel> ExchangePublicKey(UserExchangePublicKeyModel model);
         
-        Task<string> Authenticate(AuthenticateModel model);
+        Task<string> Authenticate(AuthenticateModel model, string deviceId);
         
-        Task<string> GetDataKey(IDomainActor actor, UserKeyRequestModel model);
+        Task<string> GetDataKey(IDomainActor actor, UserKeyRequestModel model, string deviceId);
         
-        Task<bool> ActiveSession(int userId);
+        Task<bool> ActiveSession(int userId, string deviceId);
     }
 }

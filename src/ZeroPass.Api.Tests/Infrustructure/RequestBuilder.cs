@@ -76,7 +76,7 @@ namespace ZeroPass.Api.Tests
             return AddHeader("Authorization", $"Bearer {token}");
         }
 
-        RequestBuilder AddHeader(string name, string value)
+        public RequestBuilder AddHeader(string name, string value)
         {
             Headers.Add(name, value);
             return this;

@@ -7,5 +7,6 @@ namespace ZeroPass.Api
     public abstract class ControllerAuthorizationBase : ControllerBase
     {
         protected TokenModel Token => TokenService.GetToken(User);
+        protected string DeviceId => Request.Headers["Device-Id"].ToString();
     }
 }

@@ -2,14 +2,11 @@
 using ZeroPass.Model.Models;
 using ZeroPass.Model.Service;
 using ZeroPass.Storage;
-using ZeroPass.Storage.Entities;
 
 namespace ZeroPass.Service
 {
     public partial class UserKeyService : IUserKeyService
     {
-        const int ExpireDomainOwner = 60 * 60 * 1000;
-        
         readonly IUnitOfWorkFactory UnitOfWorkFactory;
         readonly IUserKeyInternalService UserKeyInternalService;
         readonly ICache Cache;
@@ -17,7 +14,7 @@ namespace ZeroPass.Service
 
         public UserKeyService(
             IUnitOfWorkFactory unitOfWorkFactory, 
-            IUserKeyInternalService userKeyInternalService, 
+            IUserKeyInternalService userKeyInternalService,
             ICache cache, ICacheKeyGenerator cacheKeyGenerator)
         {
             UnitOfWorkFactory = unitOfWorkFactory;
@@ -32,36 +29,21 @@ namespace ZeroPass.Service
             return await UserKeyInternalService.ExchangePublicKey(unitOfWork, model);
         }
 
-        public async Task<string> Authenticate(AuthenticateModel model)
+        public async Task<string> Authenticate(AuthenticateModel model, string deviceId)
         {
             using var unitOfWork = await UnitOfWorkFactory.CreateRead();
-            return await UserKeyInternalService.Authenticate(unitOfWork, model);
+            return await UserKeyInternalService.Authenticate(unitOfWork, model, deviceId);
         }
-        
-        public async Task<string> GetDataKey(IDomainActor actor, UserKeyRequestModel model)
+
+        public async Task<string> GetDataKey(IDomainActor actor, UserKeyRequestModel model, string deviceId)
         {
-            var domainOwner = await GetDomainOwnerByDomainId(actor.DomainId);
             using var unitOfWork = await UnitOfWorkFactory.CreateRead();
-            return await UserKeyInternalService.GetDataKey(unitOfWork, actor.UserId, domainOwner.UserId, model);
+            return await UserKeyInternalService.GetDataKey(unitOfWork, actor.UserId, actor.UserId, model, deviceId);
         }
-        
-        async Task<DomainUserEntity> GetDomainOwnerByDomainId(int domainId)
-        {
-            var key = CacheKeyGenerator.GenerateDomainOwnerByDomainId(domainId);
-            var bytes = await Cache.GetBytes(key);
 
-            using var unitOfWork = await UnitOfWorkFactory.CreateRead(domainId, DomainDataType.DomainUser);
-            var entity = bytes != null ?
-                bytes.ToEntity<DomainUserEntity>() :
-                await unitOfWork.DomainUsers.GetDomainOwnerByDomainId(domainId);
-
-            if (entity != null) await Cache.SetBytesWithAbsoluteExpiration(key, entity.ToByteArray(), ExpireDomainOwner);
-            return entity;
-        }
-        
-        public Task<bool> ActiveSession(int userId)
+        public Task<bool> ActiveSession(int userId, string deviceId)
         {
-            return UserKeyInternalService.ActiveSession(userId);
+            return UserKeyInternalService.ActiveSession(userId, deviceId);
         }
     }
 }
