@@ -21,11 +21,11 @@ namespace ZeroPass.Service
         
         Task<UserPublicKeyModel> ExchangePublicKey(IUnitOfWork unitOfWork, UserExchangePublicKeyModel model);
         
-        Task<string> Authenticate(IUnitOfWork unitOfWork, AuthenticateModel model);
+        Task<string> Authenticate(IUnitOfWork unitOfWork, AuthenticateModel model, string deviceId);
         
-        Task<string> GetDataKey(IUnitOfWork unitOfWork, int actorId, int assignerId, UserKeyRequestModel model);
-        
-        Task<bool> ActiveSession(int userId);
+        Task<string> GetDataKey(IUnitOfWork unitOfWork, int actorId, int assignerId, UserKeyRequestModel model, string deviceId);
+
+        Task<bool> ActiveSession(int userId, string deviceId);
     }
 
     internal partial class UserKeyInternalService : IUserKeyInternalService
@@ -74,7 +74,7 @@ namespace ZeroPass.Service
             return await ExchangePublicKeyByVerifier(userKey.Verifier, userKey.Salt, model.PublicKey);
         }
         
-        public async Task<string> Authenticate(IUnitOfWork unitOfWork, AuthenticateModel model)
+        public async Task<string> Authenticate(IUnitOfWork unitOfWork, AuthenticateModel model, string deviceId)
         {
             try
             {
@@ -102,7 +102,8 @@ namespace ZeroPass.Service
                     exchangeKey,
                     model.Request.ClientIdentifierProof.Email,
                     session.Key,
-                    model.Request.Raw);
+                    model.Request.Raw,
+                    deviceId);
 
                 return session.Proof;
             }
@@ -112,15 +113,14 @@ namespace ZeroPass.Service
             }
         }
         
-        public async Task<bool> ActiveSession(int userId)
+        public async Task<bool> ActiveSession(int userId, string deviceId)
         {
-            var session = await GetUserKeySession(userId);
+            var session = await GetUserKeySession(userId, deviceId);
             return session != null;
         }
 
-        async Task Validatable(int actorId, UserKeyRequestModel model)
+        void Validatable(UserKeySessionModel userSession, UserKeyRequestModel model)
         {
-            var userSession = await GetUserKeySession(actorId);
             if (userSession == null ||
                 !VerifySession(userSession, model.ClientIdentifierProof.IdentifierProof) ||
                 !VerifyRequestData(model, userSession.CommunicateKey))
@@ -138,9 +138,9 @@ namespace ZeroPass.Service
                 userSession.Verifier,
                 identifierProof) != null;
         
-        async Task<UserKeySessionModel> GetUserKeySession(int userId)
+        async Task<UserKeySessionModel> GetUserKeySession(int userId, string deviceId)
         {
-            var cacheKey = CacheKeyGenerator.GenerateUserKeySession(userId);
+            var cacheKey = CacheKeyGenerator.GenerateUserKeySession(userId, deviceId);
             var bytes = await Cache.GetBytes(cacheKey);
 
             if (bytes != null)
@@ -211,7 +211,8 @@ namespace ZeroPass.Service
             UserKeyExchangeModel exchangeKey,
             string email,
             string key,
-            string payload)
+            string payload,
+            string deviceId)
         {
             var session = new UserKeySessionModel
             {
@@ -225,7 +226,7 @@ namespace ZeroPass.Service
                 MasterKey = payload
             };
 
-            var cacheKey = CacheKeyGenerator.GenerateUserKeySession(session.Id);
+            var cacheKey = CacheKeyGenerator.GenerateUserKeySession(session.Id, deviceId);
             await Cache.SetBytesWithSlidingExpiration(cacheKey, session.ToByteArray(), ExpireSession);
         }
         

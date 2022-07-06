@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZeroPass.Fakes;
 using ZeroPass.Model;
+using ZeroPass.Model.Models;
 using ZeroPass.Model.Service;
 using ZeroPass.Service;
 using ZeroPass.Storage;
@@ -30,7 +31,7 @@ namespace ZeroPass.Api.Tests
         protected readonly EmailServiceFake EmailServiceFake = new EmailServiceFake();
         protected readonly CacheFake CacheFake = new CacheFake();
         protected readonly ICacheKeyGenerator CacheKeyGenerator = new CacheKeyGenerator();
-        
+
         UserProfileRepositoryFake userProfileRepositoryFake;
         protected UserProfileRepositoryFake UserProfileRepositoryFake => userProfileRepositoryFake;
 
@@ -78,6 +79,22 @@ namespace ZeroPass.Api.Tests
         {
             var response = await FunctionHandlerAsync(request, new TestLambdaContext());
             return new TestResponse(response);
+        }
+
+        protected async Task<string> PersonalLogin(TestUserClientData userClientData, string deviceId = "")
+        {
+            var publicKeyModel = userClientData.GetClientPublicKey();
+            var request = RequestBuilder.PostRequest("/api/userkey/publickey").WithBody(publicKeyModel).Build();
+            var response = await Execute(request);
+            Expect(response.IsSuccess).BeTrue();
+
+            var userPublicKey = response.Body.Value<UserPublicKeyModel>();
+            var authenticateModel = userClientData.GetAuthenticateModel(userPublicKey);
+            request = RequestBuilder.PostRequest("/api/tokens")
+                .AddHeader("Device-Id", deviceId).WithBody(authenticateModel).Build();
+            response = await Execute(request);
+            Expect(response.IsSuccess).BeTrue();
+            return response.Body.Value<JwtToken>().Token;
         }
 
         protected BooleanAssertions Expect(bool value) => value.Should();

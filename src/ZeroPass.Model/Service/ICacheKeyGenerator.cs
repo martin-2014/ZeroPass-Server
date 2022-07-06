@@ -10,8 +10,8 @@
         
         string GenerateExchangeKey(string keyId);
         
-        string GenerateUserKeySession(int userId);
-        
+        string GenerateUserKeySession(int userId, string deviceId);
+
         string GenerateDomainOwnerByDomainId(int domainId);
     }
 }

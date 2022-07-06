@@ -66,7 +66,7 @@ public class TestUserClientData
             };
         }
 
-        UserKeyRequestModel GetRequestData(string payload)
+        public UserKeyRequestModel GetRequestData(string payload)
         {
             var request = new UserKeyRequestModel();
             request.ClientIdentifierProof = ClientIdentifierProof;
@@ -74,6 +74,12 @@ public class TestUserClientData
             request.Signature = SignRequest(ClientIdentifierProof, request.Raw, CommunicateKey);
 
             return request;
+        }
+
+        public T GetReponseData<T>(string payload)
+        {
+            var raw = CryptoService.DecryptText(payload, CommunicateKey);
+            return JsonConvert.DeserializeObject<T>(raw);
         }
 
         static string SignRequest(ClientIdentifierProofModel clientIdentifierProof, string payload, string secretKey)

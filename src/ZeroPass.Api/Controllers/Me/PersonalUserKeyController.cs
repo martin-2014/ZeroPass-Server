@@ -20,12 +20,12 @@ namespace ZeroPass.Api
             => (UserKeyService) = (userKeyService);
         
         [HttpPost("datakey")]
-        [ApiResponseSuccess(typeof(DataKeyModel))]
+        [ApiResponseSuccess(typeof(string))]
         [ApiResponseError(nameof(Resources.ErrorAuthenticationFailed), StatusCode = (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> GetUserDataKey(UserKeyRequestModel model)
         {
             var actor = Token.Personal();
-            var result = await UserKeyService.GetDataKey(actor, model);
+            var result = await UserKeyService.GetDataKey(actor, model, DeviceId);
             return ApiResult.Success(result);
         }
     }

@@ -27,7 +27,7 @@ namespace ZeroPass.Api
         [ApiResponseError(nameof(Resources.ErrorAuthenticationFailed), StatusCode = (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> Authenticate(AuthenticateModel model)
         {
-            var identifierProof = await UserKeyService.Authenticate(model);
+            var identifierProof = await UserKeyService.Authenticate(model, DeviceId);
             if (identifierProof == null)
                 return ApiResult.Error(Resources.ErrorAuthenticationFailed, HttpStatusCode.Unauthorized);
 
@@ -43,7 +43,7 @@ namespace ZeroPass.Api
         [ApiResponseError(nameof(Resources.ErrorAuthenticationFailed), StatusCode = (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> RefreshToken()
         {
-            await UserKeyService.ActiveSession(Token.UserId);
+            await UserKeyService.ActiveSession(Token.UserId, DeviceId);
 
             var token = await TokenService.RefreshToken(Token);
             return token == null ?
