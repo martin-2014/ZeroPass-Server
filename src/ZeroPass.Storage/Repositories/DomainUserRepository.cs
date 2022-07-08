@@ -53,7 +53,7 @@ namespace ZeroPass.Storage
         public Task<IEnumerable<DomainUserDetailView>> GetDomainDetailsByUserId(int userId)
         {
             var sql = $@"select du.domain_id, d.domain_type, d.domain_name, d.company,
-                    di.timezone, di.logo, du.is_owner, du.is_admin, du.status
+                    di.timezone, di.logo, du.is_owner, du.is_admin, du.status, di.setting
                 from t_domain_user du inner join
                     t_domain d on du.domain_id = d.id inner join
                     t_domain_info di on di.domain_id = d.id

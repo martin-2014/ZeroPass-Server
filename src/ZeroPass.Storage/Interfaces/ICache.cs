@@ -18,7 +18,9 @@ namespace ZeroPass.Storage
         Task SetBytesWithAbsoluteExpiration(string key, byte[] value, int expireInMsec);
 
         Task SlidingExpiration(string key);
-        
+
+        Task SetBytes(string key, byte[] value);
+
         Task<IEnumerable<string>> GetKeys(string pattern);
     }
 }

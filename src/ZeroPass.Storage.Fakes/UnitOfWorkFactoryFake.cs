@@ -6,7 +6,7 @@ namespace ZeroPass.Storage.Fakes
     public partial class UnitOfWorkFactoryFake : IUnitOfWorkFactory
     {
         readonly FakeDatabase Database;
-        const int MaxPoolSize = 1;
+        public int MaxPoolSize { get; set; } = 1;
         int CurrentPoolSize = 0;
 
         public UnitOfWorkFactoryFake(FakeDatabase database) => Database = database;

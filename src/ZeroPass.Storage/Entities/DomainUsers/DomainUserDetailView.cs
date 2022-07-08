@@ -2,7 +2,7 @@
 
 namespace ZeroPass.Storage.Entities
 {
-    public class DomainUserDetailView
+    public partial class DomainUserDetailView
     {
         public int DomainId { get; set; }
 
