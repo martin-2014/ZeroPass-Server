@@ -11,7 +11,7 @@ namespace ZeroPass.Api
     [Authorize]
     [ApiController]
     [Route("api/me/[controller]")]
-    public class UserProfileController : ControllerAuthorizationBase
+    public partial class UserProfileController : ControllerAuthorizationBase
     {
         readonly IUserProfileService Service;
 

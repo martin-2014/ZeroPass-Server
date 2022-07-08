@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS t_domain_user
     create_time DATETIME,
     updated_by INT,
     update_time DATETIME,
+    setting JSON NULL,
     PRIMARY KEY (domain_id, user_id),
     CONSTRAINT fk_domain_user_domain FOREIGN KEY (domain_id) REFERENCES t_domain (id),
     CONSTRAINT fk_domain_user_user FOREIGN KEY (user_id) REFERENCES t_user (id)

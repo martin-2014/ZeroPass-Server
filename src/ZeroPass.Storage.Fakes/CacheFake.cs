@@ -12,7 +12,7 @@ namespace ZeroPass.Storage.Fakes
         public Task<string> Get(string key)
         {
             var value = Values.TryGetValue(key, out var v) ? v : null;
-            return Task.FromResult(value.ToString());
+            return Task.FromResult(value?.ToString());
         }
 
         public Task<byte[]> GetBytes(string key)
@@ -52,6 +52,12 @@ namespace ZeroPass.Storage.Fakes
             var regexPattern = pattern.Replace("$", "\\$").Replace(".", "\\.").Replace("*", ".*");
             var keys = Values.Keys.Where(k => Regex.IsMatch(k, regexPattern));
             return Task.FromResult(keys);
+        }
+
+        public Task SetBytes(string key, byte[] value)
+        {
+            Values[key] = value;
+            return Task.CompletedTask;
         }
     }
 }

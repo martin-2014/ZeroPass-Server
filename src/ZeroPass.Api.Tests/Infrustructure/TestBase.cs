@@ -35,6 +35,8 @@ namespace ZeroPass.Api.Tests
         UserProfileRepositoryFake userProfileRepositoryFake;
         protected UserProfileRepositoryFake UserProfileRepositoryFake => userProfileRepositoryFake;
 
+        protected UnitOfWorkFactoryFake UnitOfWorkFactoryFake;
+
         IMapper mapper;
         protected IMapper Mapper => mapper;
 
@@ -55,7 +57,7 @@ namespace ZeroPass.Api.Tests
                 .UseApplicationServices()
                 .UseDataSecurity()
                 .AddSingleton<IUserRepository>(UserRepositoryFake)
-                .AddSingleton<IUnitOfWorkFactory>(new UnitOfWorkFactoryFake(FakeDatabase))
+                .AddSingleton<IUnitOfWorkFactory>(UnitOfWorkFactoryFake)
                 .AddSingleton<IEmailService>(EmailServiceFake)
                 .AddSingleton<IRandom>(CodeGeneratorFake)
                 .AddSingleton<ICache>(CacheFake)
@@ -73,6 +75,7 @@ namespace ZeroPass.Api.Tests
             mapper = mapperConfig.CreateMapper();
             userRepositoryFake = new UserRepositoryFake(FakeDatabase);
             userProfileRepositoryFake = new UserProfileRepositoryFake(FakeDatabase);
+            UnitOfWorkFactoryFake = new UnitOfWorkFactoryFake(FakeDatabase);
         }
 
         protected async Task<TestResponse> Execute(APIGatewayProxyRequest request)

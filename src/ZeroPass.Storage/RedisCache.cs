@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using StackExchange.Redis;
@@ -52,7 +51,13 @@ namespace ZeroPass.Storage
         
         public async Task SlidingExpiration(string key)
             => await DistributedCache.RefreshAsync(key);
-        
+
+        public async Task SetBytes(string key, byte[] value)
+        {
+            var options = new DistributedCacheEntryOptions();
+            await DistributedCache.SetAsync(key, value, options);
+        }
+
         public async Task<IEnumerable<string>> GetKeys(string pattern)
         {
             var options = ConfigurationOptions.Parse(Configuration.GetValue("RedisConnectionString"));
