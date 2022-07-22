@@ -13,6 +13,7 @@ namespace ZeroPass.Storage
         UserProfileRepository userProfiles;
         UserKeyRepository keys;
         NotificationRepository notifications;
+        ClientVersionRepository clientVersions;
 
         public MySqlConnection MySqlConnection { get; private set; }
         MySqlTransaction MySqlTransaction;
@@ -31,6 +32,7 @@ namespace ZeroPass.Storage
         public IUserProfileRepository UserProfiles => userProfiles ??= new UserProfileRepository(this);
         public IUserKeyRepository UserKeys => keys ??= new UserKeyRepository(this);
         public INotificationRepository Notifications => notifications ??= new NotificationRepository(this);
+        public IClientVersionRepository ClientVersions => clientVersions ??= new ClientVersionRepository(this);
 
         public async Task BeginTrans()
         {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ZeroPass.Model.Models;
 using ZeroPass.Storage.Entities;
+using ZeroPass.Storage.Entities.ClientVersions;
 
 namespace ZeroPass.Service
 {
@@ -19,6 +20,10 @@ namespace ZeroPass.Service
             // User Profile
             CreateMap<UserProfileView, UserProfileModel>();
             CreateMap<DomainUserDetailView, DomainOfUserModel>();
+            
+            //Client Version
+            CreateMap<ClientMinVersionEntity, ClientMinVersionModel>();
+            CreateMap<ClientVersionModel, ClientVersionView>();
         }
     }
 }

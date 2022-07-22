@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using ZeroPass.Storage.Entities;
+using ZeroPass.Storage.Entities.ClientVersions;
 
 namespace ZeroPass.Storage.Fakes
 {
@@ -25,7 +26,11 @@ namespace ZeroPass.Storage.Fakes
         public readonly List<DomainInfoEntity> DomainInfos = new List<DomainInfoEntity>();
 
         public readonly List<TestUserSecret> UserSecrets = new List<TestUserSecret>();
+
+        public readonly List<ClientMinVersionEntity> ClientMinVersions = new List<ClientMinVersionEntity>();
         
+        public readonly List<ClientVersionEntity> ClientVersions = new List<ClientVersionEntity>();
+
         int GlobalNotificationId = 1;
         public readonly List<NotificationEntity<JsonElement, JsonElement>> Notifications = new List<NotificationEntity<JsonElement, JsonElement>>();
         public int AllocateNotificationId()

@@ -13,5 +13,7 @@
         IUserKeyRepository UserKeys { get; }
         
         INotificationRepository Notifications { get; }
+        
+        IClientVersionRepository ClientVersions { get; }
     }
 }
