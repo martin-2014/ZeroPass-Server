@@ -47,6 +47,7 @@ namespace ZeroPass.Api.Tests
         {
             var userCount = 6;
             EnvBuilder.CreatePersonalUsers(userCount);
+            EnvBuilder.SetupMinRequiredVersion();
         }
 
         protected override void AddService(IServiceCollection services)
@@ -94,7 +95,10 @@ namespace ZeroPass.Api.Tests
             var userPublicKey = response.Body.Value<UserPublicKeyModel>();
             var authenticateModel = userClientData.GetAuthenticateModel(userPublicKey);
             request = RequestBuilder.PostRequest("/api/tokens")
-                .AddHeader("Device-Id", deviceId).WithBody(authenticateModel).Build();
+                .AddHeader("Device-Id", deviceId)
+                .AddHeader("Edition", "community")
+                .AddHeader("Version", "1.3.1")
+                .WithBody(authenticateModel).Build();
             response = await Execute(request);
             Expect(response.IsSuccess).BeTrue();
             return response.Body.Value<JwtToken>().Token;

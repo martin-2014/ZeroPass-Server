@@ -97,6 +97,15 @@ namespace ZeroPass.Api.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to err_minimum_version_required.
+        /// </summary>
+        internal static string ErrorMinimumVersionRequired {
+            get {
+                return ResourceManager.GetString("ErrorMinimumVersionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to err_record_not_found.
         /// </summary>
         internal static string ErrorNotFound {

@@ -135,4 +135,7 @@
   <data name="ErrorNotFound" xml:space="preserve">
     <value>err_record_not_found</value>
   </data>
+  <data name="ErrorMinimumVersionRequired" xml:space="preserve">
+    <value>err_minimum_version_required</value>
+  </data>
 </root>

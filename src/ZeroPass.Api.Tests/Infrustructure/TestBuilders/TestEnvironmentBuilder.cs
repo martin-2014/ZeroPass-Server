@@ -2,6 +2,7 @@
 using System.Linq;
 using ZeroPass.Model.Models;
 using ZeroPass.Storage.Entities;
+using ZeroPass.Storage.Entities.ClientVersions;
 using ZeroPass.Storage.Fakes;
 
 namespace ZeroPass.Api.Tests
@@ -17,6 +18,8 @@ namespace ZeroPass.Api.Tests
             TestEnv = testEnv;
             Database = testEnv.Database;
         }
+
+        public void SetupMinRequiredVersion() => Database.ClientMinVersions.Add(new ClientMinVersionEntity{Edition = "community", MinVersion = "1.0.0"});
 
         public void CreatePersonalUsers(int count)
             => Enumerable

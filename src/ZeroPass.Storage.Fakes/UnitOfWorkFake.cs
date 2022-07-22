@@ -19,6 +19,7 @@ namespace ZeroPass.Storage.Fakes
         public IUserProfileRepository UserProfiles => new UserProfileRepositoryFake(Database);
         public IUserKeyRepository UserKeys => new UserKeyRepositoryFake(Database);
         public INotificationRepository Notifications => new NotificationRepositoryFake(Database);
+        public IClientVersionRepository ClientVersions => new ClientVersionRepositoryFake(Database);
 
         public Task BeginTrans() => Task.CompletedTask;
 
