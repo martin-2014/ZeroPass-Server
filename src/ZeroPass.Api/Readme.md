@@ -106,3 +106,7 @@ Deploy application
     cd "ZeroPass.Core.Api/src/ZeroPass.Core.Api"
     dotnet lambda deploy-serverless
 ```
+
+
+
+Just a test message
